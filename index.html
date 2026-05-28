@@ -95,6 +95,20 @@
   </div>
 </section>
 
+<!-- CURRENCY BAR -->
+<div style="background:var(--black-3);border-bottom:1px solid rgba(201,168,76,.08);padding:7px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
+  <span style="color:var(--white-dim)">Currency:</span>
+  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" style="background:transparent;border:1px solid rgba(201,168,76,.2);color:var(--gold);padding:3px 8px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
+    <option value="USD">🇺🇸 USD $</option>
+    <option value="EUR">🇪🇺 EUR €</option>
+    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
+    <option value="AED">🇦🇪 AED</option>
+    <option value="SAR">🇸🇦 SAR</option>
+    <option value="TRY">🇹🇷 TRY ₺</option>
+    <option value="CAD">🇨🇦 CAD</option>
+    <option value="AUD">🇦🇺 AUD</option>
+  </select>
+</div>
 <div class="marquee-bar"><div class="marquee-inner">
   <span class="marquee-item">⚽ Football Jerseys ◆</span><span class="marquee-item">🏈 NFL Jerseys ◆</span><span class="marquee-item">🏀 NBA Jerseys ◆</span><span class="marquee-item">🌍 Ships Worldwide ◆</span><span class="marquee-item">⭐ Thailand AAA Quality ◆</span><span class="marquee-item">📦 7–15 Day Delivery ◆</span><span class="marquee-item">⚽ Football Jerseys ◆</span><span class="marquee-item">🏈 NFL Jerseys ◆</span><span class="marquee-item">🏀 NBA Jerseys ◆</span><span class="marquee-item">🌍 Ships Worldwide ◆</span><span class="marquee-item">⭐ Thailand AAA Quality ◆</span><span class="marquee-item">📦 7–15 Day Delivery ◆</span>
 </div></div>
@@ -122,10 +136,10 @@
 
 <footer>
   <div class="footer-grid">
-    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide. Thailand AAA grade guaranteed.</p><div class="socials"><a class="social" href="#">TK</a><a class="social" href="#">IG</a><a class="social" href="#">FB</a></div></div>
+    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide. Thailand AAA grade guaranteed.</p><div class="socials"><a class="social" href="#" target="_blank">TK</a><a class="social" href="https://instagram.com/thejerseystorekktc" target="_blank">IG</a><a class="social" href="#">FB</a></div></div>
     <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="pages/football.html">Football Jerseys</a></li><li><a href="pages/nfl.html">NFL Jerseys</a></li><li><a href="pages/nba.html">NBA Jerseys</a></li></ul></div>
     <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="pages/shipping.html">Shipping Info</a></li><li><a href="pages/returns.html">Returns Policy</a></li><li><a href="pages/size-guide.html">Size Guide</a></li><li><a href="pages/track.html">Track Order</a></li><li><a href="pages/contact.html">Contact Us</a></li></ul></div>
-    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="pages/about.html">About Us</a></li><li><a href="pages/faq.html">FAQ</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="pages/about.html">About Us</a></li><li><a href="pages/faq.html">FAQ</a></li><li><a href="pages/privacy.html">Privacy Policy</a></li><li><a href="pages/terms.html">Terms of Service</a></li></ul></div>
   </div>
   <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store. All rights reserved.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">AMEX</span><span class="pay-badge">CRYPTO</span></div></div>
 </footer>

@@ -325,8 +325,8 @@
   <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">CRYPTO</span></div></div>
 </footer>
 
-<script src="../assets/js/layout.js"></script>
 <script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
 <script>
 // ── STATE ────────────────────────────────────────────────
 let currentProduct = null;
@@ -481,10 +481,12 @@ function renderRelated(sport, league, team, emoji, price) {
 }
 
 // ── INIT ────────────────────────────────────────────────
-loadProduct();
-initCursor();
-updateCartBadge();
-initAnimations();
+window.addEventListener('DOMContentLoaded', function() {
+  loadProduct();
+  initCursor();
+  updateCartBadge();
+  initAnimations();
+});
 </script>
 </body>
 </html>

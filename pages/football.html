@@ -54,8 +54,8 @@
   </div>
   <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">CRYPTO</span></div></div>
 </footer>
-<script src="../assets/js/layout.js"></script>
 <script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
 <script>
 function teamCard(t){
   const price = parseInt(t.p.replace(/\$|–.*/g,''));
@@ -80,16 +80,21 @@ function doSearch(){
     : `<div class="no-results">No results for "${q}"</div>`;
   initAnimations();
 }
-// Init
-let html = '';
-Object.entries(FOOTBALL).forEach(([k,v]) => html += renderSec(k,v,true));
-document.getElementById('catalog-body').innerHTML = html;
-// Handle hash
-const hash = location.hash.replace('#','');
-if(hash && FOOTBALL[hash]){
-  const btn = [...document.querySelectorAll('.ftab')].find(b=>b.textContent.toLowerCase().includes(hash) || b.getAttribute('onclick')?.includes(`'${hash}'`));
-  if(btn) filterLeague(hash, btn);
-}
-initCursor(); updateCartBadge(); initAnimations();
+// Init - wait for DOM
+window.addEventListener('DOMContentLoaded', function() {
+  let html = '';
+  Object.entries(FOOTBALL).forEach(([k,v]) => html += renderSec(k,v,true));
+  document.getElementById('catalog-body').innerHTML = html;
+  // Handle hash filter
+  const hash = location.hash.replace('#','');
+  if(hash && FOOTBALL[hash]){
+    const btn = [...document.querySelectorAll('.ftab')].find(b => {
+      const oc = b.getAttribute('onclick') || '';
+      return oc.includes("'" + hash + "'");
+    });
+    if(btn) filterLeague(hash, btn);
+  }
+  initCursor(); updateCartBadge(); initAnimations();
+});
 </script>
 </body></html>

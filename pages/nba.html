@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NBA Jerseys — ProKits Store</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
+<nav>
+  <div class="nav-top">
+    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
+    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..." id="searchInput"><button class="btn btn-gold" style="padding:9px 18px;font-size:11px" onclick="doSearch()">Search</button></div>
+    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
+  </div>
+  <div class="nav-bottom">
+    <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="football.html">⚽ Football</a>
+    <a class="nav-link " href="nfl.html">🏈 NFL</a>
+    <a class="nav-link active" href="nba.html">🏀 NBA</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="nav-link" href="faq.html">FAQ</a>
+    <a class="nav-link" href="shipping.html">Shipping</a>
+    <a class="nav-link" href="returns.html">Returns</a>
+    <a class="nav-link" href="size-guide.html">Size Guide</a>
+    <a class="nav-link" href="track.html">Track Order</a>
+  </div>
+</nav>
+<div style="padding-top:110px">
+  <div class="catalog-header">
+    <div class="catalog-top"><div><div class="sec-tag">🏀 Basketball</div><div class="sec-title">NBA JERSEYS</div><div style="font-size:13px;color:var(--white-dim);margin-top:6px">All 30 Teams · East & West · Swingman Quality</div></div></div>
+    <div class="filter-tabs" id="tabs"></div>
+  </div>
+  <div class="catalog-body" id="catalog-body"></div>
+</div>
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide.</p><div class="socials"><a class="social" href="#">TK</a><a class="social" href="#">IG</a><a class="social" href="#">FB</a></div></div>
+    <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="football.html">Football</a></li><li><a href="nfl.html">NFL</a></li><li><a href="nba.html">NBA</a></li></ul></div>
+    <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="shipping.html">Shipping</a></li><li><a href="returns.html">Returns</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="track.html">Track Order</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="faq.html">FAQ</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">CRYPTO</span></div></div>
+</footer>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+const DATA = NBA_TEAMS;
+const TABS = [['all','All 30 Teams'],['popular','🔥 Most Popular'],['east','Eastern Conference'],['west','Western Conference']];
+const CONF_ICON = '🏀';
+
+// Render tabs
+document.getElementById('tabs').innerHTML = TABS.map(([f,l]) =>
+  `<button class="ftab" data-filter="${f}" onclick="renderData('${f}')">${l}</button>`).join('');
+
+function teamCard(t) {
+  const price = parseInt(t.p.replace(/\$|–.*/g,''));
+  return `<div class="team-card anim"><span class="tc-emoji">${t.e}</span><div class="tc-name">${t.n}</div><div class="tc-jersey">${t.j}</div><div class="tc-price">${t.p}</div><button class="tc-btn" onclick="addToCart('${t.n.replace(/'/g,\"\\'\")}',' ${t.j}',${price},'${t.e}')">Add to Cart +</button></div>`;
+}
+
+function renderData(filter) {
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+  let html = '';
+  if (filter === 'popular') {
+    const pops = Object.values(DATA).flatMap(c => c.teams).filter(t => t.pop);
+    html = `<div class="league-sec"><div class="league-hdr"><span class="league-flag">🔥</span><div><div class="league-name-text">Most Popular Teams</div></div><span class="league-num">${pops.length} Teams</span></div><div class="teams-grid">${pops.map(teamCard).join('')}</div></div>`;
+  } else {
+    Object.entries(DATA).forEach(([k, v]) => {
+      if (filter === 'all' || filter === k)
+        html += `<div class="league-sec"><div class="league-hdr"><span class="league-flag">${CONF_ICON}</span><div><div class="league-name-text">${v.name}</div></div><span class="league-num">${v.teams.length} Teams</span></div><div class="teams-grid">${v.teams.map(teamCard).join('')}</div></div>`;
+    });
+  }
+  document.getElementById('catalog-body').innerHTML = html;
+  initAnimations();
+}
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  if (!q) return;
+  const results = Object.values(DATA).flatMap(c => c.teams).filter(t => t.n.toLowerCase().includes(q));
+  document.getElementById('catalog-body').innerHTML = results.length
+    ? `<div class="league-sec"><div class="league-hdr"><span class="league-flag">🔍</span><div><div class="league-name-text">Results for "${q}"</div><div class="league-country-text">${results.length} found</div></div></div><div class="teams-grid">${results.map(teamCard).join('')}</div></div>`
+    : `<div class="no-results">No results for "${q}"</div>`;
+  initAnimations();
+}
+
+renderData('all');
+initCursor(); updateCartBadge();
+</script>
+</body></html>

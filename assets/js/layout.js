@@ -116,13 +116,51 @@ function renderCursor() {
 
 function initCursor() {
   const cur = document.getElementById('cursor'), rng = document.getElementById('ring');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
-  (function loop(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; rng.style.left=rx+'px'; rng.style.top=ry+'px'; requestAnimationFrame(loop); })();
-  document.querySelectorAll('a,button,input,select,textarea').forEach(el => {
-    el.addEventListener('mouseenter', () => { cur.style.width='6px'; cur.style.height='6px'; rng.style.width='50px'; rng.style.height='50px'; rng.style.opacity='.8'; });
-    el.addEventListener('mouseleave', () => { cur.style.width='12px'; cur.style.height='12px'; rng.style.width='36px'; rng.style.height='36px'; rng.style.opacity='.5'; });
+  if (!cur || !rng) return;
+  let mx=0, my=0, rx=0, ry=0, cursorVisible=true;
+
+  // Keep cursor always visible when moving
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+    if (!cursorVisible) {
+      cur.style.opacity='1'; rng.style.opacity='.5';
+      cursorVisible=true;
+    }
   });
+
+  // Smooth ring follow
+  (function loop(){
+    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+    rng.style.left=rx+'px'; rng.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  })();
+
+  // Attach hover effects — works on all elements including dynamic ones
+  function attachCursorHover(root) {
+    root.querySelectorAll('a,button,input,select,textarea,.thumb,.team-card,.related-card,.kit-link,.variant-btn').forEach(el => {
+      if (el._cursorAttached) return;
+      el._cursorAttached = true;
+      el.addEventListener('mouseenter', () => {
+        cur.style.width='6px'; cur.style.height='6px';
+        rng.style.width='50px'; rng.style.height='50px'; rng.style.opacity='.8';
+      });
+      el.addEventListener('mouseleave', () => {
+        cur.style.width='12px'; cur.style.height='12px';
+        rng.style.width='36px'; rng.style.height='36px'; rng.style.opacity='.5';
+      });
+    });
+  }
+
+  // Initial attach
+  attachCursorHover(document);
+
+  // Watch for dynamically added elements
+  const observer = new MutationObserver(() => attachCursorHover(document));
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // Expose for manual refresh
+  window.refreshCursor = () => attachCursorHover(document);
 }
 
 function showToast(msg) {

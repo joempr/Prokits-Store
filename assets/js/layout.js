@@ -165,3 +165,85 @@ function fixRootPaths() {
     el.href = el.href.replace('../', '');
   });
 }
+
+// ── LIVE SEARCH ───────────────────────────────────────────
+function initLiveSearch() {
+  const inputs = document.querySelectorAll('.nav-search input, #searchInput');
+  inputs.forEach(input => {
+    // Wrap in search-wrapper if not already
+    if (!input.parentElement.classList.contains('search-wrapper')) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'search-wrapper';
+      input.parentNode.insertBefore(wrapper, input);
+      wrapper.appendChild(input);
+      const dropdown = document.createElement('div');
+      dropdown.className = 'search-dropdown';
+      dropdown.id = 'searchDropdown';
+      wrapper.appendChild(dropdown);
+    }
+    input.addEventListener('input', function() {
+      const q = this.value.trim().toLowerCase();
+      const dd = document.getElementById('searchDropdown') || this.parentElement.querySelector('.search-dropdown');
+      if (!dd) return;
+      if (q.length < 2) { dd.classList.remove('open'); return; }
+
+      // Search all data sources available
+      let results = [];
+      if (typeof FOOTBALL !== 'undefined') {
+        Object.entries(FOOTBALL).forEach(([league, data]) => {
+          data.teams.forEach(t => {
+            if (t.n.toLowerCase().includes(q)) {
+              results.push({...t, league, sport:'football'});
+            }
+          });
+        });
+      }
+      if (typeof NFL_TEAMS !== 'undefined') {
+        Object.values(NFL_TEAMS).forEach((conf, i) => {
+          conf.teams.forEach(t => {
+            if (t.n.toLowerCase().includes(q)) results.push({...t, league: i===0?'afc':'nfc', sport:'nfl'});
+          });
+        });
+      }
+      if (typeof NBA_TEAMS !== 'undefined') {
+        Object.values(NBA_TEAMS).forEach((conf, i) => {
+          conf.teams.forEach(t => {
+            if (t.n.toLowerCase().includes(q)) results.push({...t, league: i===0?'east':'west', sport:'nba'});
+          });
+        });
+      }
+
+      results = results.slice(0, 7);
+      if (!results.length) {
+        dd.innerHTML = '<div class="search-no-results">No jerseys found for "' + q + '"</div>';
+      } else {
+        dd.innerHTML = results.map(r => {
+          const price = parseInt(r.p.replace(/\$|–.*/g,''));
+          const url = (window.location.pathname.includes('/pages/') ? '' : 'pages/') +
+            'product.html?sport=' + r.sport + '&league=' + r.league +
+            '&team=' + encodeURIComponent(r.n) + '&emoji=' + encodeURIComponent(r.e) + '&price=' + price;
+          return '<a href="' + url + '" class="search-result-item">' +
+            '<span class="sri-emoji">' + r.e + '</span>' +
+            '<div><div class="sri-name">' + r.n + '</div><div class="sri-league">' + r.sport.toUpperCase() + ' · ' + r.league + '</div></div>' +
+            '<span class="sri-price">' + r.p + '</span>' +
+          '</a>';
+        }).join('');
+      }
+      dd.classList.add('open');
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      const dd = document.getElementById('searchDropdown') || input.parentElement.querySelector('.search-dropdown');
+      if (dd && !input.parentElement.contains(e.target)) dd.classList.remove('open');
+    });
+
+    // Enter key
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const dd = document.getElementById('searchDropdown') || this.parentElement.querySelector('.search-dropdown');
+        if (dd) dd.classList.remove('open');
+      }
+    });
+  });
+}

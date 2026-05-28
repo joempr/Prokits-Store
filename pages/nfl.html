@@ -125,7 +125,30 @@
 }
 .whatsapp-btn:hover + .whatsapp-tooltip { opacity: 1; }
 </style>
-</head>
+<style>
+/* ── SEASON-AWARE TEAM CARDS ── */
+.tc-header { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+.tc-price-range { font-size:12px; color:var(--white-dim); margin-top:2px; }
+.tc-season-tabs { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:10px; }
+.tc-season-btn { font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; font-weight:700; padding:4px 8px; border:1px solid rgba(255,255,255,.12); color:var(--white-dim); background:transparent; cursor:pointer; transition:all .2s; white-space:nowrap; }
+.tc-season-btn:hover { border-color:var(--gold); color:var(--gold); }
+.tc-season-btn.active { border-color:var(--gold); color:var(--black); background:var(--gold); }
+.tc-season-btn.retro-btn.active { background:var(--red); border-color:var(--red); color:#fff; }
+.tc-season-btn.retro-btn { border-color:rgba(192,57,43,.3); color:rgba(192,57,43,.8); }
+.tc-panels { margin-bottom:10px; }
+.tc-panel { display:none; flex-direction:column; gap:4px; }
+.tc-panel.active { display:flex; }
+.kit-link { display:flex; justify-content:space-between; align-items:center; padding:7px 10px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); text-decoration:none; transition:all .2s; }
+.kit-link:hover { background:rgba(201,168,76,.08); border-color:rgba(201,168,76,.2); }
+.kit-type { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; color:var(--white); letter-spacing:.5px; }
+.kit-price { font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--gold); }
+.kit-note { font-size:10px !important; color:var(--white-dim) !important; font-family:'Barlow',sans-serif !important; letter-spacing:0 !important; text-align:right; max-width:130px; }
+.retro-link { border-color:rgba(192,57,43,.15); }
+.retro-link:hover { background:rgba(192,57,43,.08); border-color:rgba(192,57,43,.3); }
+.retro-link .kit-type { color:rgba(255,160,130,.9); }
+.tc-quick-add { width:100%; font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:3px; text-transform:uppercase; font-weight:700; color:var(--black); background:var(--gold); border:none; padding:8px; cursor:pointer; transition:background .2s; margin-top:4px; }
+.tc-quick-add:hover { background:var(--gold-light); }
+</style></head>
 <body>
 <div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
 <!-- ANNOUNCEMENT BAR -->
@@ -198,6 +221,98 @@
 </footer>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/layout.js"></script>
+<script>
+const DATA = NFL_TEAMS;
+let currentConf = 'afc';
+
+const TABS_NFL = {"nfl":[['all','All 32 Teams'],['popular','🔥 Most Popular'],['afc','AFC'],['nfc','NFC']],"nba":[['all','All 30 Teams'],['popular','🔥 Most Popular'],['east','East'],['west','West']]}['nfl'];
+document.getElementById('tabs').innerHTML = TABS_NFL.map(([f,l]) =>
+  '<button class="ftab" data-filter="' + f + '" onclick="renderData(\'' + f + '\')">' + l + '</button>').join('');
+
+function switchSeason(btn, season) {
+  const card = btn.closest('.team-card');
+  card.querySelectorAll('.tc-season-btn').forEach(b => b.classList.remove('active'));
+  card.querySelectorAll('.tc-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel = card.querySelector('[data-season="' + season + '"]');
+  if (panel) panel.classList.add('active');
+}
+
+function teamCard(t) {
+  const basePrice = parseInt(t.p.replace(/\$|–.*/g, ''));
+  const hasSeasons = t.seasons && Object.keys(t.seasons).length;
+  const hasRetro = t.retro && t.retro.length > 0;
+  let tabsHtml = '', panelsHtml = '';
+
+  if (hasSeasons) {
+    const seasonKeys = Object.keys(t.seasons);
+    tabsHtml = seasonKeys.map((s,i) =>
+      '<button class="tc-season-btn' + (i===0?' active':'') + '" onclick="switchSeason(this,\'' + s + '\')">' + s + '</button>'
+    ).join('');
+    if (hasRetro) tabsHtml += '<button class="tc-season-btn retro-btn" onclick="switchSeason(this,\'retro\')">🏆 Retro</button>';
+
+    seasonKeys.forEach((s, i) => {
+      const kitsStr = t.seasons[s];
+      const kits = kitsStr.split(' · ');
+      const sPrice = basePrice + (s === '2024' || s === '2024/25' ? -3 : s === '2023' || s === '2023/24' ? -6 : s === '2022' || s === '2022/23' ? -9 : 0);
+      panelsHtml += '<div class="tc-panel' + (i===0?' active':'') + '" data-season="' + s + '">' +
+        kits.map(k => '<a href="product.html?sport=nfl&league=' + currentConf + '&team=' + encodeURIComponent(t.n) + '&emoji=' + encodeURIComponent(t.e) + '&price=' + sPrice + '&season=' + encodeURIComponent(s) + '&kit=' + encodeURIComponent(k.trim()) + '" class="kit-link"><span class="kit-type">' + k.trim() + '</span><span class="kit-price">$' + sPrice + '</span></a>').join('') +
+      '</div>';
+    });
+
+    if (hasRetro) {
+      panelsHtml += '<div class="tc-panel" data-season="retro">' +
+        t.retro.map(r => '<a href="product.html?sport=nfl&league=' + currentConf + '&team=' + encodeURIComponent(t.n) + '&emoji=' + encodeURIComponent(t.e) + '&price=' + (basePrice-5) + '&season=' + encodeURIComponent(r.year) + '&kit=' + encodeURIComponent(r.name) + '" class="kit-link retro-link" title="' + r.note + '"><span class="kit-type">📅 ' + r.year + ' ' + r.name + '</span><span class="kit-price kit-note">' + r.note.substring(0,22) + '…</span></a>').join('') +
+      '</div>';
+    }
+  } else {
+    const kits = (t.j||'').split(' · ');
+    panelsHtml = '<div class="tc-panel active" data-season="current">' +
+      kits.map(k => '<a href="product.html?sport=nfl&league=' + currentConf + '&team=' + encodeURIComponent(t.n) + '&emoji=' + encodeURIComponent(t.e) + '&price=' + basePrice + '&kit=' + encodeURIComponent(k.trim()) + '" class="kit-link"><span class="kit-type">' + k.trim() + '</span><span class="kit-price">$' + basePrice + '</span></a>').join('') +
+    '</div>';
+  }
+
+  return '<div class="team-card anim">' +
+    '<div class="tc-header"><span class="tc-emoji">' + t.e + '</span><div><div class="tc-name">' + t.n + '</div><div class="tc-price-range">' + t.p + '</div></div></div>' +
+    (tabsHtml ? '<div class="tc-season-tabs">' + tabsHtml + '</div>' : '') +
+    '<div class="tc-panels">' + panelsHtml + '</div>' +
+    '<button class="tc-quick-add" onclick="addToCart(\'' + t.n.replace(/\'/g,"\\'") + '\',\'Home\',' + basePrice + ',\'' + t.e + '\')">+ Quick Add</button>' +
+  '</div>';
+}
+
+function renderData(filter) {
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-filter="' + filter + '"]').classList.add('active');
+  let html = '';
+  if (filter === 'popular') {
+    const pops = Object.values(DATA).flatMap(c => c.teams).filter(t => t.pop);
+    currentConf = 'afc';
+    html = '<div class="league-sec"><div class="league-hdr"><span class="league-flag">🔥</span><div><div class="league-name-text">Most Popular Teams</div></div><span class="league-num">' + pops.length + ' Teams</span></div><div class="teams-grid">' + pops.map(teamCard).join('') + '</div></div>';
+  } else {
+    Object.entries(DATA).forEach(([k, v]) => {
+      if (filter === 'all' || filter === k) {
+        currentConf = k;
+        html += '<div class="league-sec"><div class="league-hdr"><span class="league-flag">🏈</span><div><div class="league-name-text">' + v.name + '</div></div><span class="league-num">' + v.teams.length + ' Teams</span></div><div class="teams-grid">' + v.teams.map(teamCard).join('') + '</div></div>';
+      }
+    });
+  }
+  document.getElementById('catalog-body').innerHTML = html;
+  initAnimations();
+}
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  if (!q) return;
+  const results = Object.values(DATA).flatMap(c => c.teams).filter(t => t.n.toLowerCase().includes(q));
+  document.getElementById('catalog-body').innerHTML = results.length
+    ? '<div class="league-sec"><div class="league-hdr"><span class="league-flag">🔍</span><div><div class="league-name-text">Results for "' + q + '"</div></div></div><div class="teams-grid">' + results.map(teamCard).join('') + '</div></div>'
+    : '<div class="no-results">No results</div>';
+  initAnimations();
+}
+
+renderData('all');
+initCursor(); updateCartBadge(); initLiveSearch();
+</script>
 <script>
 const DATA = NFL_TEAMS;
 const TABS = [['all','All 32 Teams'],['popular','🔥 Most Popular'],['afc','AFC Conference'],['nfc','NFC Conference']];

@@ -127,8 +127,6 @@
 </style>
 </head>
 <body>
-<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
-
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar" id="annBar">
   <div class="ann-items">
@@ -145,81 +143,18 @@
   </div>
   <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
 </div>
-<nav>
-  <div class="nav-top">
-    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
-    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..."></div>
-    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
-  </div>
-  <div class="nav-bottom">
-    <a class="nav-link" href="../index.html">Home</a>
-    <a class="nav-link" href="new-arrivals.html">🆕 New</a>
-    <a class="nav-link" href="sale.html">🔥 Sale</a>
-    <a class="nav-link" href="football.html">⚽ Football</a>
-    <a class="nav-link" href="nfl.html">🏈 NFL</a>
-    <a class="nav-link" href="nba.html">🏀 NBA</a>
-    <a class="nav-link" href="about.html">About</a>
-    <a class="nav-link" href="contact.html">Contact</a>
-    <a class="nav-link" href="faq.html">FAQ</a>
-    <a class="nav-link" href="shipping.html">Shipping</a>
-    <a class="nav-link" href="returns.html">Returns</a>
-    <a class="nav-link" href="size-guide.html">Size Guide</a>
-    <a class="nav-link" href="track.html">Track Order</a>
-  </div>
-</nav>
-<div style="padding-top:150px">
-  <div class="content-hero"><div class="sec-tag">Sizing Help</div><h1>SIZE <span>GUIDE</span></h1><p>Getting the right size is important. Use this guide to find your perfect fit across all jersey types.</p></div>
-  <div class="content-body">
-<div class="highlight-box" style="margin-bottom:32px"><p>⚠️ <strong>Important:</strong> Our jerseys use Asian sizing which runs slightly smaller than European/US sizing. If you are between sizes, we recommend going one size up.</p></div>
-<div class="sec-tag">Football / Soccer Jerseys</div>
-<div class="sec-title" style="margin-bottom:16px;font-size:28px">FOOTBALL JERSEY SIZES</div>
-<table class="size-table">
-  <tr><th>Size</th><th>Chest (cm)</th><th>Chest (inches)</th><th>Waist (cm)</th><th>Length (cm)</th><th>Best For</th></tr>
-  <tr><td>S</td><td>88–92</td><td>34–36"</td><td>78–82</td><td>68</td><td>Slim build</td></tr>
-  <tr><td>M</td><td>92–96</td><td>36–38"</td><td>82–86</td><td>70</td><td>Average build</td></tr>
-  <tr><td>L</td><td>96–102</td><td>38–40"</td><td>86–92</td><td>72</td><td>Regular / athletic</td></tr>
-  <tr><td>XL</td><td>102–108</td><td>40–42"</td><td>92–98</td><td>74</td><td>Larger build</td></tr>
-  <tr><td>XXL</td><td>108–116</td><td>42–45"</td><td>98–106</td><td>76</td><td>Big & tall</td></tr>
-  <tr><td>XXXL</td><td>116–124</td><td>45–49"</td><td>106–114</td><td>78</td><td>Extra large</td></tr>
-</table>
-<div class="sec-tag" style="margin-top:40px">NFL Jerseys</div>
-<div class="sec-title" style="margin-bottom:16px;font-size:28px">NFL JERSEY SIZES</div>
-<table class="size-table">
-  <tr><th>Size</th><th>Chest (cm)</th><th>Chest (inches)</th><th>Length (cm)</th><th>US Equivalent</th></tr>
-  <tr><td>S</td><td>90–95</td><td>35–37"</td><td>70</td><td>US Small</td></tr>
-  <tr><td>M</td><td>95–100</td><td>37–39"</td><td>72</td><td>US Medium</td></tr>
-  <tr><td>L</td><td>100–106</td><td>39–42"</td><td>74</td><td>US Large</td></tr>
-  <tr><td>XL</td><td>106–112</td><td>42–44"</td><td>76</td><td>US X-Large</td></tr>
-  <tr><td>XXL</td><td>112–120</td><td>44–47"</td><td>78</td><td>US XX-Large</td></tr>
-  <tr><td>XXXL</td><td>120–128</td><td>47–50"</td><td>80</td><td>US 3XL</td></tr>
-</table>
-<div class="sec-tag" style="margin-top:40px">NBA Jerseys</div>
-<div class="sec-title" style="margin-bottom:16px;font-size:28px">NBA JERSEY SIZES</div>
-<table class="size-table">
-  <tr><th>Size</th><th>Chest (cm)</th><th>Chest (inches)</th><th>Length (cm)</th><th>Fit Style</th></tr>
-  <tr><td>S</td><td>88–92</td><td>34–36"</td><td>72</td><td>Fitted / slim</td></tr>
-  <tr><td>M</td><td>92–98</td><td>36–38"</td><td>74</td><td>Standard</td></tr>
-  <tr><td>L</td><td>98–104</td><td>38–41"</td><td>76</td><td>Standard / relaxed</td></tr>
-  <tr><td>XL</td><td>104–112</td><td>41–44"</td><td>78</td><td>Relaxed</td></tr>
-  <tr><td>XXL</td><td>112–120</td><td>44–47"</td><td>80</td><td>Loose / big</td></tr>
-</table>
-<div style="margin-top:40px" class="content-grid-3">
-  <div class="info-card anim"><div class="ic-icon">📏</div><h3>How to Measure</h3><p>Measure your chest at the widest point, keeping the tape measure level. Measure in a relaxed standing position.</p></div>
-  <div class="info-card anim"><div class="ic-icon">🤔</div><h3>Not Sure?</h3><p>Send us your chest and height via WhatsApp or email and we'll recommend the perfect size personally.</p></div>
-  <div class="info-card anim"><div class="ic-icon">↕️</div><h3>Size Up Rule</h3><p>If between two sizes, always go up. A slightly looser jersey always looks better than one that's too tight.</p></div>
-</div></div>
+<!-- CURRENCY BAR -->
+<div id="currencyBar" style="background:var(--black-4);border-bottom:1px solid rgba(255,255,255,.06);padding:6px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
+  <span style="color:var(--white-dim)">Currency:</span>
+  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" id="currencyTopBar" style="background:var(--black-3);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
+    <option value="USD">🇺🇸 USD $</option>
+    <option value="EUR">🇪🇺 EUR €</option>
+    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
+    <option value="AED">🇦🇪 AED</option>
+    <option value="SAR">🇸🇦 SAR</option>
+    <option value="TRY">🇹🇷 TRY ₺</option>
+    <option value="CAD">🇨🇦 CAD</option>
+    <option value="AUD">🇦🇺 AUD</option>
+  </select>
 </div>
-
-<footer>
-  <div class="footer-grid">
-    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide. Thailand AAA grade guaranteed.</p><div class="socials"><a class="social" href="#" target="_blank">TK</a><a class="social" href="https://instagram.com/thejerseystorekktc" target="_blank">IG</a><a class="social" href="#" target="_blank">FB</a></div></div>
-    <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="football.html">Football Jerseys</a></li><li><a href="nfl.html">NFL Jerseys</a></li><li><a href="nba.html">NBA Jerseys</a></li></ul></div>
-    <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="shipping.html">Shipping Info</a></li><li><a href="returns.html">Returns Policy</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="track.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
-    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="faq.html">FAQ</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
-  </div>
-  <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store. All rights reserved.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">AMEX</span><span class="pay-badge">CRYPTO</span></div></div>
-</footer>
-<script src="../assets/js/layout.js"></script>
-<script>initCursor(); updateCartBadge(); initAnimations();</script>
-
-</body></html>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>

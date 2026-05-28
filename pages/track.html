@@ -127,8 +127,6 @@
 </style>
 </head>
 <body>
-<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
-
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar" id="annBar">
   <div class="ann-items">
@@ -145,71 +143,18 @@
   </div>
   <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
 </div>
-<nav>
-  <div class="nav-top">
-    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
-    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..."></div>
-    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
-  </div>
-  <div class="nav-bottom">
-    <a class="nav-link" href="../index.html">Home</a>
-    <a class="nav-link" href="new-arrivals.html">🆕 New</a>
-    <a class="nav-link" href="sale.html">🔥 Sale</a>
-    <a class="nav-link" href="football.html">⚽ Football</a>
-    <a class="nav-link" href="nfl.html">🏈 NFL</a>
-    <a class="nav-link" href="nba.html">🏀 NBA</a>
-    <a class="nav-link" href="about.html">About</a>
-    <a class="nav-link" href="contact.html">Contact</a>
-    <a class="nav-link" href="faq.html">FAQ</a>
-    <a class="nav-link" href="shipping.html">Shipping</a>
-    <a class="nav-link" href="returns.html">Returns</a>
-    <a class="nav-link" href="size-guide.html">Size Guide</a>
-    <a class="nav-link" href="track.html">Track Order</a>
-  </div>
-</nav>
-<div style="padding-top:150px">
-  <div class="content-hero"><div class="sec-tag">Order Tracking</div><h1>TRACK YOUR <span>ORDER</span></h1><p>Enter your tracking number below to see the latest status of your delivery.</p></div>
-  <div class="content-body">
-<div class="track-box">
-  <div class="highlight-box"><p>📦 Your tracking number was emailed when your order was dispatched. Check your inbox and spam folder for an email from <strong>noreply@prokitsstore.com</strong>.</p></div>
-  <div class="track-form">
-    <input class="track-input" id="trackInput" type="text" placeholder="Enter tracking number e.g. YT2412345678">
-    <button class="track-btn" onclick="trackOrder()">Track →</button>
-  </div>
-  <div class="track-result" id="trackResult">
-    <div class="track-status"><div class="status-dot"></div><div class="status-text">In Transit — On the way</div></div>
-    <div style="font-size:13px;color:var(--white-dim);margin-bottom:20px">Estimated delivery: <strong style="color:var(--white)">3–6 business days</strong></div>
-    <div class="track-steps">
-      <div class="track-step"><div class="step-dot done"></div><div class="step-info"><div class="step-title">Order Confirmed</div><div class="step-date">Payment received and order placed</div></div></div>
-      <div class="track-step"><div class="step-dot done"></div><div class="step-info"><div class="step-title">Order Processed</div><div class="step-date">Jersey prepared and packaged</div></div></div>
-      <div class="track-step"><div class="step-dot done"></div><div class="step-info"><div class="step-title">Dispatched from Warehouse</div><div class="step-date">Handed to shipping carrier</div></div></div>
-      <div class="track-step"><div class="step-dot done"></div><div class="step-info"><div class="step-title">Arrived at Transit Hub</div><div class="step-date">Package at international sorting facility</div></div></div>
-      <div class="track-step"><div class="step-dot pending"></div><div class="step-info"><div class="step-title">In Transit to Destination</div><div class="step-date">En route to your country</div></div></div>
-      <div class="track-step"><div class="step-dot pending"></div><div class="step-info"><div class="step-title">Out for Delivery</div><div class="step-date">Estimated: 3–6 business days</div></div></div>
-    </div>
-    <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)"><p style="font-size:13px;color:var(--white-dim)">For detailed tracking visit <a href="https://www.yuntrack.com" target="_blank" style="color:var(--gold)">yuntrack.com</a> or <a href="https://www.17track.net" target="_blank" style="color:var(--gold)">17track.net</a></p></div>
-  </div>
-  <div style="margin-top:32px" class="info-card"><div class="ic-icon">❓</div><h3>Can't Find Your Tracking?</h3><p style="margin-top:8px">If you haven't received a tracking number within 4 business days of ordering, contact us at support@prokitsstore.com with your order number.</p></div>
-</div></div>
+<!-- CURRENCY BAR -->
+<div id="currencyBar" style="background:var(--black-4);border-bottom:1px solid rgba(255,255,255,.06);padding:6px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
+  <span style="color:var(--white-dim)">Currency:</span>
+  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" id="currencyTopBar" style="background:var(--black-3);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
+    <option value="USD">🇺🇸 USD $</option>
+    <option value="EUR">🇪🇺 EUR €</option>
+    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
+    <option value="AED">🇦🇪 AED</option>
+    <option value="SAR">🇸🇦 SAR</option>
+    <option value="TRY">🇹🇷 TRY ₺</option>
+    <option value="CAD">🇨🇦 CAD</option>
+    <option value="AUD">🇦🇺 AUD</option>
+  </select>
 </div>
-
-<footer>
-  <div class="footer-grid">
-    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide. Thailand AAA grade guaranteed.</p><div class="socials"><a class="social" href="#" target="_blank">TK</a><a class="social" href="https://instagram.com/thejerseystorekktc" target="_blank">IG</a><a class="social" href="#" target="_blank">FB</a></div></div>
-    <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="football.html">Football Jerseys</a></li><li><a href="nfl.html">NFL Jerseys</a></li><li><a href="nba.html">NBA Jerseys</a></li></ul></div>
-    <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="shipping.html">Shipping Info</a></li><li><a href="returns.html">Returns Policy</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="track.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
-    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="faq.html">FAQ</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
-  </div>
-  <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store. All rights reserved.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">AMEX</span><span class="pay-badge">CRYPTO</span></div></div>
-</footer>
-<script src="../assets/js/layout.js"></script>
-<script>initCursor(); updateCartBadge(); initAnimations();</script>
-<script>
-function trackOrder(){
-  const n=document.getElementById('trackInput').value.trim();
-  if(!n){showToast('Please enter a tracking number');return;}
-  const r=document.getElementById('trackResult');
-  r.style.display='block'; r.scrollIntoView({behavior:'smooth',block:'center'});
-}
-</script>
-</body></html>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>

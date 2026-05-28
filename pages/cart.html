@@ -127,8 +127,6 @@
 </style>
 </head>
 <body>
-<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
-
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar" id="annBar">
   <div class="ann-items">
@@ -145,94 +143,18 @@
   </div>
   <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
 </div>
-<nav>
-  <div class="nav-top">
-    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
-    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..."></div>
-    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
-  </div>
-  <div class="nav-bottom">
-    <a class="nav-link" href="../index.html">Home</a>
-    <a class="nav-link" href="new-arrivals.html">🆕 New</a>
-    <a class="nav-link" href="sale.html">🔥 Sale</a>
-    <a class="nav-link" href="football.html">⚽ Football</a>
-    <a class="nav-link" href="nfl.html">🏈 NFL</a>
-    <a class="nav-link" href="nba.html">🏀 NBA</a>
-    <a class="nav-link" href="about.html">About</a>
-    <a class="nav-link" href="contact.html">Contact</a>
-    <a class="nav-link" href="faq.html">FAQ</a>
-    <a class="nav-link" href="shipping.html">Shipping</a>
-    <a class="nav-link" href="returns.html">Returns</a>
-    <a class="nav-link" href="size-guide.html">Size Guide</a>
-    <a class="nav-link" href="track.html">Track Order</a>
-  </div>
-</nav>
-<div style="padding-top:150px">
-  <div class="content-hero"><div class="sec-tag">Your Selection</div><h1>SHOPPING <span>CART</span></h1></div>
-  <div class="content-body">
-    <div class="cart-grid">
-      <div id="cart-items"></div>
-      <div id="cart-summary" style="display:none">
-        <div class="order-summary">
-          <div class="os-title">Order Summary</div>
-          <div class="os-row"><span>Subtotal</span><span id="os-subtotal">$0</span></div>
-          <div class="os-row"><span>Shipping</span><span id="os-shipping">$12</span></div>
-          <div class="os-row"><span style="font-size:11px;color:var(--white-dim)">Free shipping over $100</span><span></span></div>
-          <div class="os-row total"><span>Total</span><span id="os-total">$0</span></div>
-          <button class="checkout-btn" onclick="showToast('🔒 Redirecting to secure checkout...')">Proceed to Checkout →</button>
-          <div class="promo-row"><input class="promo-input" type="text" placeholder="Promo code"><button class="promo-btn" onclick="showToast('✅ Code applied!')">Apply</button></div>
-          <div style="margin-top:16px;font-size:12px;color:var(--white-dim);line-height:1.6">🔒 Secure checkout · 🌍 Ships worldwide · 📦 7–15 days delivery</div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- CURRENCY BAR -->
+<div id="currencyBar" style="background:var(--black-4);border-bottom:1px solid rgba(255,255,255,.06);padding:6px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
+  <span style="color:var(--white-dim)">Currency:</span>
+  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" id="currencyTopBar" style="background:var(--black-3);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
+    <option value="USD">🇺🇸 USD $</option>
+    <option value="EUR">🇪🇺 EUR €</option>
+    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
+    <option value="AED">🇦🇪 AED</option>
+    <option value="SAR">🇸🇦 SAR</option>
+    <option value="TRY">🇹🇷 TRY ₺</option>
+    <option value="CAD">🇨🇦 CAD</option>
+    <option value="AUD">🇦🇺 AUD</option>
+  </select>
 </div>
-
-<footer>
-  <div class="footer-grid">
-    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide. Thailand AAA grade guaranteed.</p><div class="socials"><a class="social" href="#" target="_blank">TK</a><a class="social" href="https://instagram.com/thejerseystorekktc" target="_blank">IG</a><a class="social" href="#" target="_blank">FB</a></div></div>
-    <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="football.html">Football Jerseys</a></li><li><a href="nfl.html">NFL Jerseys</a></li><li><a href="nba.html">NBA Jerseys</a></li></ul></div>
-    <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="shipping.html">Shipping Info</a></li><li><a href="returns.html">Returns Policy</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="track.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
-    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="faq.html">FAQ</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
-  </div>
-  <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store. All rights reserved.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">AMEX</span><span class="pay-badge">CRYPTO</span></div></div>
-</footer>
-<script src="../assets/js/layout.js"></script>
-<script>initCursor(); updateCartBadge(); initAnimations();</script>
-<script src="../assets/js/layout.js"></script>
-<script>
-function renderCart(){
-  const cart=JSON.parse(localStorage.getItem('prokits_cart')||'[]');
-  const container=document.getElementById('cart-items');
-  const summary=document.getElementById('cart-summary');
-  if(!cart.length){
-    container.innerHTML=`<div class="cart-empty"><div class="ce-icon">🛒</div><h2>Your Cart is Empty</h2><p style="color:var(--white-dim);margin-bottom:24px">Browse our collections and find your perfect jersey.</p><a href="football.html" class="btn btn-gold">Shop Now</a></div>`;
-    summary.style.display='none'; return;
-  }
-  summary.style.display='block';
-  const subtotal=cart.reduce((s,i)=>s+(i.price*i.qty),0);
-  const shipping=subtotal>100?0:12;
-  container.innerHTML=`<div class="cart-items">${cart.map((item,idx)=>`
-    <div class="cart-item">
-      <div class="ci-emoji-lg">${item.emoji}</div>
-      <div class="ci-details">
-        <div class="ci-iname">${item.name}</div>
-        <div class="ci-ileague">${item.league}</div>
-        <div class="ci-qty">
-          <button class="qty-btn" onclick="updateQty(${idx},-1)">−</button>
-          <span class="qty-num">${item.qty}</span>
-          <button class="qty-btn" onclick="updateQty(${idx},1)">+</button>
-        </div>
-      </div>
-      <div class="ci-price-lg">$${item.price*item.qty}</div>
-      <button class="ci-remove" onclick="removeItem(${idx})">✕</button>
-    </div>`).join('')}</div>`;
-  document.getElementById('os-subtotal').textContent=`$${subtotal}`;
-  document.getElementById('os-shipping').textContent=shipping?`$${shipping}`:'FREE';
-  document.getElementById('os-total').textContent=`$${subtotal+shipping}`;
-}
-function removeItem(idx){ let c=JSON.parse(localStorage.getItem('prokits_cart')||'[]'); c.splice(idx,1); localStorage.setItem('prokits_cart',JSON.stringify(c)); renderCart(); updateCartBadge(); }
-function updateQty(idx,d){ let c=JSON.parse(localStorage.getItem('prokits_cart')||'[]'); c[idx].qty=Math.max(1,c[idx].qty+d); localStorage.setItem('prokits_cart',JSON.stringify(c)); renderCart(); updateCartBadge(); }
-initCursor(); updateCartBadge(); renderCart(); initAnimations();
-</script>
-</body></html>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>

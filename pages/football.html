@@ -64,7 +64,7 @@ function teamCard(t){
 function renderSec(key, data, show){
   return `<div class="league-sec${show?'':' hidden'}" id="sec-${key}"><div class="league-hdr"><span class="league-flag">${data.flag}</span><div><div class="league-name-text">${data.name}</div><div class="league-country-text">${data.country}</div></div><span class="league-num">${data.teams.length} Clubs</span></div><div class="teams-grid">${data.teams.map(teamCard).join('')}</div></div>`;
 }
-function filterLeague(key, btn){
+function filterLeague(key, btn){ currentLeague = key === 'all' ? 'spain' : key;
   document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.league-sec').forEach(s=>s.classList.toggle('hidden', key!=='all' && s.id!=='sec-'+key));

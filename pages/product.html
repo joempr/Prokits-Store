@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Jersey — ProKits Store</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<style>
+/* ── PRODUCT PAGE SPECIFIC STYLES ── */
+.product-page { padding: 40px; max-width: 1200px; margin: 0 auto; }
+.breadcrumb { display:flex; gap:8px; align-items:center; font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--white-dim); margin-bottom:40px; }
+.breadcrumb a { color:var(--white-dim); text-decoration:none; transition:color .2s; }
+.breadcrumb a:hover { color:var(--gold); }
+.breadcrumb span { color:var(--gold-dim); }
+
+/* PRODUCT LAYOUT */
+.product-layout { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+
+/* IMAGE GALLERY */
+.gallery { position:sticky; top:130px; }
+.main-image { position:relative; background:var(--black-3); border:1px solid rgba(201,168,76,.1); aspect-ratio:1; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:12px; }
+.main-image-emoji { font-size:160px; filter:drop-shadow(0 20px 40px rgba(0,0,0,.6)); transition:transform .4s; }
+.main-image:hover .main-image-emoji { transform:scale(1.05) translateY(-8px); }
+.main-image-placeholder { position:absolute; inset:0; opacity:.06; }
+.image-label { position:absolute; top:16px; left:16px; }
+.thumbnails { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.thumb { background:var(--black-3); border:1px solid rgba(255,255,255,.06); aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:40px; cursor:none; transition:all .3s; position:relative; overflow:hidden; }
+.thumb:hover, .thumb.active { border-color:var(--gold); }
+.thumb.active::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--gold); }
+.thumb-label { position:absolute; bottom:6px; left:0; right:0; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--white-dim); }
+
+/* PRODUCT INFO */
+.product-info-panel {}
+.product-sport-tag { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:5px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+.product-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(32px,4vw,52px); line-height:1; color:var(--white); margin-bottom:6px; }
+.product-subtitle { font-family:'Barlow Condensed',sans-serif; font-size:16px; color:var(--white-dim); letter-spacing:1px; margin-bottom:20px; }
+.product-rating { display:flex; align-items:center; gap:10px; margin-bottom:24px; }
+.stars { color:var(--gold); font-size:14px; letter-spacing:2px; }
+.rating-count { font-size:13px; color:var(--white-dim); }
+.product-price-block { display:flex; align-items:baseline; gap:12px; margin-bottom:28px; padding-bottom:28px; border-bottom:1px solid rgba(255,255,255,.08); }
+.product-price-main { font-family:'Bebas Neue',sans-serif; font-size:52px; color:var(--gold); line-height:1; }
+.product-price-old { font-size:20px; color:var(--white-dim); text-decoration:line-through; }
+.product-price-save { font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:2px; font-weight:700; color:#fff; background:var(--red); padding:4px 10px; }
+
+/* VARIANT SELECTOR */
+.option-group { margin-bottom:24px; }
+.option-label { font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
+.option-selected { color:var(--white); font-weight:700; }
+.variant-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.variant-btn { font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; font-weight:700; padding:10px 18px; border:1px solid rgba(255,255,255,.15); color:var(--white-dim); background:transparent; transition:all .3s; cursor:none; }
+.variant-btn:hover { border-color:var(--gold); color:var(--gold); }
+.variant-btn.active { border-color:var(--gold); color:var(--black); background:var(--gold); }
+.variant-btn.out-stock { opacity:.3; text-decoration:line-through; cursor:not-allowed; }
+.size-guide-link { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold-dim); text-decoration:none; border-bottom:1px solid rgba(139,105,20,.3); }
+.size-guide-link:hover { color:var(--gold); }
+
+/* PLAYER INPUT */
+.player-input-group { margin-bottom:24px; }
+.player-inputs { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.input-wrap { display:flex; flex-direction:column; gap:6px; }
+.input-wrap label { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-dim); }
+.player-input { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); color:var(--white); padding:12px 14px; font-family:'Barlow',sans-serif; font-size:14px; outline:none; transition:border-color .3s; width:100%; }
+.player-input::placeholder { color:var(--white-dim); }
+.player-input:focus { border-color:rgba(201,168,76,.5); }
+.player-note { font-size:12px; color:var(--white-dim); margin-top:8px; line-height:1.5; }
+
+/* QTY + ADD TO CART */
+.purchase-row { display:flex; gap:10px; margin-bottom:20px; }
+.qty-control { display:flex; align-items:center; border:1px solid rgba(255,255,255,.15); }
+.qty-control button { width:42px; height:52px; background:rgba(255,255,255,.05); border:none; color:var(--white); font-size:20px; transition:background .2s; cursor:none; }
+.qty-control button:hover { background:rgba(201,168,76,.2); }
+.qty-control span { width:48px; text-align:center; font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--white); }
+.add-to-cart-btn { flex:1; font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:4px; text-transform:uppercase; font-weight:700; color:var(--black); background:var(--gold); border:none; padding:16px; transition:background .3s; cursor:none; }
+.add-to-cart-btn:hover { background:var(--gold-light); }
+.wishlist-btn { width:52px; height:52px; border:1px solid rgba(255,255,255,.15); background:transparent; color:var(--white-dim); font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .3s; cursor:none; }
+.wishlist-btn:hover { border-color:var(--red); color:var(--red); }
+
+/* TRUST MINI */
+.trust-mini { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-bottom:28px; }
+.tm-item { background:var(--black-3); padding:14px 10px; text-align:center; }
+.tm-icon { font-size:18px; margin-bottom:4px; }
+.tm-text { font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--white-dim); line-height:1.4; }
+
+/* TABS */
+.info-tabs { border-bottom:1px solid rgba(255,255,255,.08); display:flex; gap:0; margin-bottom:24px; }
+.info-tab { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; font-weight:700; color:var(--white-dim); background:transparent; border:none; border-bottom:2px solid transparent; padding:12px 20px; cursor:none; transition:all .3s; }
+.info-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+.tab-content { display:none; font-size:14px; color:var(--white-dim); line-height:1.8; }
+.tab-content.active { display:block; }
+.tab-content ul { padding-left:18px; }
+.tab-content li { margin-bottom:6px; }
+.tab-content strong { color:var(--white); }
+
+/* RELATED */
+.related-section { padding:60px 40px; border-top:1px solid rgba(255,255,255,.06); }
+.related-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; margin-top:32px; }
+.related-card { background:var(--black-3); border:1px solid rgba(255,255,255,.04); padding:20px; cursor:none; transition:all .3s; text-decoration:none; display:block; }
+.related-card:hover { border-color:rgba(201,168,76,.2); transform:translateY(-3px); }
+.rc-emoji { font-size:48px; margin-bottom:12px; display:block; }
+.rc-league { font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-dim); margin-bottom:4px; }
+.rc-name { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; color:var(--white); margin-bottom:8px; }
+.rc-price { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--gold); }
+
+@media(max-width:900px){
+  .product-layout{grid-template-columns:1fr}
+  .gallery{position:static}
+  .product-page{padding:20px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+  .trust-mini{grid-template-columns:repeat(3,1fr)}
+  .purchase-row{flex-wrap:wrap}
+  .add-to-cart-btn{flex:1;min-width:200px}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
+<div id="toast"></div>
+
+<nav>
+  <div class="nav-top">
+    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
+    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..."></div>
+    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
+  </div>
+  <div class="nav-bottom">
+    <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="football.html">⚽ Football</a>
+    <a class="nav-link" href="nfl.html">🏈 NFL</a>
+    <a class="nav-link" href="nba.html">🏀 NBA</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="nav-link" href="faq.html">FAQ</a>
+    <a class="nav-link" href="shipping.html">Shipping</a>
+    <a class="nav-link" href="returns.html">Returns</a>
+    <a class="nav-link" href="size-guide.html">Size Guide</a>
+    <a class="nav-link" href="track.html">Track Order</a>
+  </div>
+</nav>
+
+<div style="padding-top:110px">
+  <div class="product-page">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" id="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="#" id="bc-sport">Football</a>
+      <span>›</span>
+      <a href="#" id="bc-league">La Liga</a>
+      <span>›</span>
+      <span id="bc-team" style="color:var(--white)">Real Madrid</span>
+    </div>
+
+    <div class="product-layout">
+
+      <!-- IMAGE GALLERY -->
+      <div class="gallery">
+        <div class="main-image">
+          <div class="main-image-placeholder" id="img-bg"></div>
+          <div class="image-label"><span class="badge badge-new" id="main-badge">New</span></div>
+          <div class="main-image-emoji" id="main-emoji">⚽</div>
+        </div>
+        <div class="thumbnails" id="thumbnails"></div>
+      </div>
+
+      <!-- PRODUCT INFO -->
+      <div class="product-info-panel">
+        <div class="product-sport-tag" id="info-sport-tag">La Liga · Spain</div>
+        <div class="product-title" id="info-title">REAL MADRID</div>
+        <div class="product-subtitle" id="info-subtitle">Home Jersey 2025/26 · Thailand AAA Quality</div>
+
+        <div class="product-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(4.9 · 238 reviews)</span>
+        </div>
+
+        <div class="product-price-block">
+          <span class="product-price-main" id="info-price">$42</span>
+          <span class="product-price-old" id="info-old-price">$130</span>
+          <span class="product-price-save" id="info-save">Save 68%</span>
+        </div>
+
+        <!-- VARIANT: Kit Type -->
+        <div class="option-group">
+          <div class="option-label">Kit Type <span class="option-selected" id="selected-kit">Home</span></div>
+          <div class="variant-btns" id="kit-btns"></div>
+        </div>
+
+        <!-- VARIANT: Size -->
+        <div class="option-group">
+          <div class="option-label">
+            Size <span class="option-selected" id="selected-size">Select Size</span>
+            <a href="size-guide.html" class="size-guide-link">Size Guide →</a>
+          </div>
+          <div class="variant-btns" id="size-btns">
+            <button class="variant-btn" onclick="selectSize('S',this)">S</button>
+            <button class="variant-btn" onclick="selectSize('M',this)">M</button>
+            <button class="variant-btn" onclick="selectSize('L',this)">L</button>
+            <button class="variant-btn" onclick="selectSize('XL',this)">XL</button>
+            <button class="variant-btn" onclick="selectSize('XXL',this)">XXL</button>
+            <button class="variant-btn" onclick="selectSize('XXXL',this)">XXXL</button>
+          </div>
+        </div>
+
+        <!-- PLAYER CUSTOMISATION -->
+        <div class="player-input-group">
+          <div class="option-label">Player Name & Number <span class="option-selected" style="color:var(--white-dim);font-weight:400">(Optional)</span></div>
+          <div class="player-inputs">
+            <div class="input-wrap">
+              <label>Player Name</label>
+              <input class="player-input" id="player-name" type="text" placeholder="e.g. BELLINGHAM" maxlength="18">
+            </div>
+            <div class="input-wrap">
+              <label>Number</label>
+              <input class="player-input" id="player-number" type="number" placeholder="e.g. 5" min="1" max="99">
+            </div>
+          </div>
+          <p class="player-note">💬 Leave blank for a blank jersey. Popular players (Mbappé, Mahomes, LeBron...) are pre-printed and ship faster. Custom names add 2–3 days.</p>
+        </div>
+
+        <!-- QTY + ADD TO CART -->
+        <div class="purchase-row">
+          <div class="qty-control">
+            <button onclick="changeQty(-1)">−</button>
+            <span id="qty-display">1</span>
+            <button onclick="changeQty(1)">+</button>
+          </div>
+          <button class="add-to-cart-btn" onclick="handleAddToCart()">Add to Cart →</button>
+          <button class="wishlist-btn" onclick="showToast('❤️ Added to wishlist!')">♡</button>
+        </div>
+
+        <!-- TRUST MINI -->
+        <div class="trust-mini">
+          <div class="tm-item"><div class="tm-icon">🌍</div><div class="tm-text">Ships Worldwide</div></div>
+          <div class="tm-item"><div class="tm-icon">⚡</div><div class="tm-text">7–15 Day Delivery</div></div>
+          <div class="tm-item"><div class="tm-icon">🔄</div><div class="tm-text">Easy Returns</div></div>
+        </div>
+
+        <!-- TABS: Description / Details / Shipping -->
+        <div class="info-tabs">
+          <button class="info-tab active" onclick="switchTab('description',this)">Description</button>
+          <button class="info-tab" onclick="switchTab('details',this)">Details</button>
+          <button class="info-tab" onclick="switchTab('shipping',this)">Shipping</button>
+          <button class="info-tab" onclick="switchTab('reviews',this)">Reviews</button>
+        </div>
+
+        <div class="tab-content active" id="tab-description">
+          <p id="desc-text">Premium Thailand AAA quality replica jersey. Identical in design to the official kit — correct badge embroidery, accurate font, correct fabric weight and finish. Looks and feels like the real thing at a fraction of the cost.</p>
+          <ul style="margin-top:12px">
+            <li>✅ Thailand AAA grade — highest quality replica available</li>
+            <li>✅ Correct badge embroidery (not printed)</li>
+            <li>✅ Accurate player fonts and numbering</li>
+            <li>✅ Breathable polyester fabric</li>
+            <li>✅ Available with or without player name/number</li>
+          </ul>
+        </div>
+
+        <div class="tab-content" id="tab-details">
+          <ul>
+            <li><strong>Material:</strong> 100% Polyester, breathable mesh</li>
+            <li><strong>Quality Grade:</strong> Thailand AAA</li>
+            <li><strong>Badge:</strong> Embroidered (not printed)</li>
+            <li><strong>Sponsor logos:</strong> Correct and accurate</li>
+            <li><strong>Wash care:</strong> Machine wash cold, do not tumble dry</li>
+            <li><strong>Sizing:</strong> Asian sizing — see size guide. Order one size up if between sizes.</li>
+            <li><strong>Season:</strong> 2025/26</li>
+            <li><strong>Kits available:</strong> Home, Away, Third (where applicable)</li>
+          </ul>
+        </div>
+
+        <div class="tab-content" id="tab-shipping">
+          <ul>
+            <li><strong>Processing time:</strong> 1–3 business days</li>
+            <li><strong>Europe:</strong> 8–13 business days</li>
+            <li><strong>USA / Canada:</strong> 10–15 business days</li>
+            <li><strong>Middle East:</strong> 7–12 business days</li>
+            <li><strong>Asia Pacific:</strong> 8–14 business days</li>
+            <li><strong>Tracking:</strong> Included on all orders</li>
+            <li><strong>Free shipping:</strong> Orders over $100</li>
+            <li><strong>Carrier:</strong> YunExpress / 4PX</li>
+          </ul>
+          <p style="margin-top:12px">If your package is lost or seized by customs, we reship free of charge.</p>
+        </div>
+
+        <div class="tab-content" id="tab-reviews">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:var(--black-3);padding:18px;border:1px solid rgba(255,255,255,.06)">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--white)">Marcus T.</span><span style="color:var(--gold);font-size:13px">★★★★★</span></div>
+              <div style="font-size:12px;color:var(--gold-dim);margin-bottom:8px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">VERIFIED BUYER · 2 WEEKS AGO</div>
+              <p>Absolutely perfect. Badge is embroidered, fabric is quality. My friends thought it was official. Ordered XL, perfect fit.</p>
+            </div>
+            <div style="background:var(--black-3);padding:18px;border:1px solid rgba(255,255,255,.06)">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--white)">Khalid A.</span><span style="color:var(--gold);font-size:13px">★★★★★</span></div>
+              <div style="font-size:12px;color:var(--gold-dim);margin-bottom:8px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">VERIFIED BUYER · 1 MONTH AGO</div>
+              <p>Fast delivery to UAE, exactly 9 days. Jersey quality is top. Bought home and away. Will order again for the Champions League kit.</p>
+            </div>
+            <div style="background:var(--black-3);padding:18px;border:1px solid rgba(255,255,255,.06)">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--white)">James R.</span><span style="color:var(--gold);font-size:13px">★★★★☆</span></div>
+              <div style="font-size:12px;color:var(--gold-dim);margin-bottom:8px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">VERIFIED BUYER · 3 WEEKS AGO</div>
+              <p>Great jersey. Took 12 days to UK. Quality is excellent, badge looks sharp. Sizing runs small so go one up — I'm usually M and got L, perfect.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end product-info-panel -->
+    </div><!-- end product-layout -->
+  </div><!-- end product-page -->
+
+  <!-- RELATED PRODUCTS -->
+  <div class="related-section">
+    <div class="sec-tag">You May Also Like</div>
+    <div class="sec-title" style="font-size:36px">RELATED <span>JERSEYS</span></div>
+    <div class="related-grid" id="related-grid"></div>
+  </div>
+
+</div><!-- end padding-top -->
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide.</p><div class="socials"><a class="social" href="#">TK</a><a class="social" href="#">IG</a><a class="social" href="#">FB</a></div></div>
+    <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="football.html">Football</a></li><li><a href="nfl.html">NFL</a></li><li><a href="nba.html">NBA</a></li></ul></div>
+    <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="shipping.html">Shipping</a></li><li><a href="returns.html">Returns</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="track.html">Track Order</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="faq.html">FAQ</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">CRYPTO</span></div></div>
+</footer>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+// ── STATE ────────────────────────────────────────────────
+let currentProduct = null;
+let selectedKit = 'Home';
+let selectedSize = null;
+let qty = 1;
+
+// ── LOAD PRODUCT FROM URL PARAMS ────────────────────────
+function loadProduct() {
+  const params = new URLSearchParams(location.search);
+  const sport = params.get('sport') || 'football';
+  const league = params.get('league') || 'spain';
+  const team = params.get('team') || 'Real Madrid';
+  const emoji = params.get('emoji') || '⚽';
+  const price = parseInt(params.get('price') || '42');
+
+  // Build product data from URL
+  currentProduct = { sport, league, team, emoji, price };
+
+  // Kit variants by sport
+  const kitsByFootball = ['Home','Away','Third'];
+  const kitsByNFL = ['Home','Away','Alternate'];
+  const kitsByNBA = ['Home','Away','City Edition'];
+  const kits = sport === 'nfl' ? kitsByNFL : sport === 'nba' ? kitsByNBA : kitsByFootball;
+
+  // Prices per kit type
+  const kitPrices = { Home: price, Away: price - 2, Third: price - 3, Alternate: price, 'City Edition': price + 3 };
+
+  // League display names
+  const leagueNames = {
+    england:'Premier League · England', spain:'La Liga · Spain', france:'Ligue 1 · France',
+    germany:'Bundesliga · Germany', italy:'Serie A · Italy', portugal:'Liga NOS · Portugal',
+    netherlands:'Eredivisie · Netherlands', international:'International / National',
+    afc:'AFC · NFL', nfc:'NFC · NFL', east:'Eastern Conference · NBA', west:'Western Conference · NBA'
+  };
+
+  // BG colors per sport
+  const bgs = {
+    football:'radial-gradient(circle at 30% 70%, rgba(30,60,30,.4), transparent)',
+    nfl:'radial-gradient(circle at 30% 70%, rgba(60,30,10,.4), transparent)',
+    nba:'radial-gradient(circle at 30% 70%, rgba(30,10,60,.4), transparent)'
+  };
+
+  // Update DOM
+  document.title = `${team} Jersey — ProKits Store`;
+  document.getElementById('page-title').textContent = `${team} Jersey — ProKits Store`;
+  document.getElementById('bc-sport').textContent = sport.toUpperCase();
+  document.getElementById('bc-sport').href = `${sport}.html`;
+  document.getElementById('bc-league').textContent = leagueNames[league] || league;
+  document.getElementById('bc-team').textContent = team;
+  document.getElementById('main-emoji').textContent = emoji;
+  document.getElementById('img-bg').style.background = bgs[sport] || bgs.football;
+  document.getElementById('info-sport-tag').textContent = leagueNames[league] || league;
+  document.getElementById('info-title').textContent = team.toUpperCase();
+  document.getElementById('info-subtitle').textContent = `${selectedKit} Jersey 2025/26 · Thailand AAA Quality`;
+  document.getElementById('info-price').textContent = `$${price}`;
+  document.getElementById('info-old-price').textContent = `$${Math.round(price * 3.1)}`;
+  document.getElementById('info-save').textContent = `Save ${Math.round((1 - price/(price*3.1))*100)}%`;
+  document.getElementById('desc-text').textContent = `Premium Thailand AAA quality replica ${team} jersey. Identical in design to the official kit — correct badge embroidery, accurate fonts and numbering, correct fabric weight. Looks and feels like the real thing at a fraction of the cost.`;
+
+  // Render kit buttons
+  document.getElementById('kit-btns').innerHTML = kits.map(k =>
+    `<button class="variant-btn${k==='Home'?' active':''}" onclick="selectKit('${k}',this,${JSON.stringify(kitPrices)})">${k}</button>`
+  ).join('');
+
+  // Thumbnails
+  const views = ['Front','Back','Detail','Badge'];
+  document.getElementById('thumbnails').innerHTML = views.map((v,i) =>
+    `<div class="thumb${i===0?' active':''}" onclick="selectThumb(this,'${v}')">
+      <span style="font-size:36px">${emoji}</span>
+      <span class="thumb-label">${v}</span>
+    </div>`
+  ).join('');
+
+  // Related products
+  renderRelated(sport, league, team, emoji, price);
+}
+
+// ── INTERACTIONS ────────────────────────────────────────
+function selectKit(kit, btn, prices) {
+  selectedKit = kit;
+  document.querySelectorAll('#kit-btns .variant-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('selected-kit').textContent = kit;
+  document.getElementById('info-subtitle').textContent = `${kit} Jersey 2025/26 · Thailand AAA Quality`;
+  const p = prices[kit] || currentProduct.price;
+  document.getElementById('info-price').textContent = `$${p}`;
+}
+
+function selectSize(size, btn) {
+  selectedSize = size;
+  document.querySelectorAll('#size-btns .variant-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('selected-size').textContent = size;
+}
+
+function selectThumb(thumb, view) {
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+
+function changeQty(d) {
+  qty = Math.max(1, Math.min(10, qty + d));
+  document.getElementById('qty-display').textContent = qty;
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.info-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function handleAddToCart() {
+  if (!selectedSize) { showToast('⚠️ Please select a size first!'); return; }
+  const name = document.getElementById('player-name').value.trim();
+  const number = document.getElementById('player-number').value.trim();
+  const priceText = document.getElementById('info-price').textContent.replace('$','');
+  const price = parseInt(priceText);
+  const label = `${currentProduct.team} · ${selectedKit}${name ? ` · #${number} ${name}` : ''} · Size ${selectedSize}`;
+  for(let i=0; i<qty; i++) addToCart(label, `${selectedKit} · Size ${selectedSize}`, price, currentProduct.emoji);
+  showToast(`✅ ${qty}x ${currentProduct.team} ${selectedKit} added to cart!`);
+}
+
+// ── RELATED PRODUCTS ────────────────────────────────────
+function renderRelated(sport, league, team, emoji, price) {
+  let pool = [];
+  if (sport === 'football' && FOOTBALL[league]) {
+    pool = FOOTBALL[league].teams.filter(t => t.n !== team).slice(0, 4);
+  } else if (sport === 'nfl') {
+    pool = [...NFL_TEAMS.afc.teams, ...NFL_TEAMS.nfc.teams].filter(t => t.n !== team).slice(0, 4);
+  } else if (sport === 'nba') {
+    pool = [...NBA_TEAMS.east.teams, ...NBA_TEAMS.west.teams].filter(t => t.n !== team).slice(0, 4);
+  }
+
+  const leagueNames = {
+    england:'Premier League', spain:'La Liga', france:'Ligue 1',
+    germany:'Bundesliga', italy:'Serie A', portugal:'Liga NOS',
+    netherlands:'Eredivisie', international:'National Teams'
+  };
+
+  document.getElementById('related-grid').innerHTML = pool.map(t => {
+    const p = parseInt(t.p.replace(/\$|–.*/g,''));
+    const url = `product.html?sport=${sport}&league=${league}&team=${encodeURIComponent(t.n)}&emoji=${t.e}&price=${p}`;
+    return `<a href="${url}" class="related-card">
+      <span class="rc-emoji">${t.e}</span>
+      <div class="rc-league">${leagueNames[league] || league}</div>
+      <div class="rc-name">${t.n}</div>
+      <div class="rc-price">${t.p}</div>
+    </a>`;
+  }).join('');
+}
+
+// ── INIT ────────────────────────────────────────────────
+loadProduct();
+initCursor();
+updateCartBadge();
+initAnimations();
+</script>
+</body>
+</html>

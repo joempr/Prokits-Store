@@ -217,7 +217,16 @@
       <button class="ftab" onclick="filterLeague('international',this)">🌍 National Teams</button>
     </div>
   </div>
-  <div class="catalog-body" id="catalog-body"></div>
+  <div style="padding:24px 0 0">
+  <div id="api-football-notice" style="display:none;padding:0 0 24px">
+    <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:14px 20px;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;color:var(--gold)">
+      ✅ SHOWING LIVE PRODUCTS FROM YOUR STORE — ADD MORE IN THE ADMIN PANEL
+    </div>
+    <div class="teams-grid" id="api-products-football" style="margin-top:16px"></div>
+    <div style="height:1px;background:rgba(255,255,255,.06);margin:32px 0"></div>
+  </div>
+</div>
+<div class="catalog-body" id="catalog-body"></div>
 </div>
 <footer>
   <div class="footer-grid">
@@ -228,6 +237,7 @@
   </div>
   <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">CRYPTO</span></div></div>
 </footer>
+<script src="../assets/js/api.js"></script>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/layout.js"></script>
 <script>
@@ -353,6 +363,14 @@ if (hash && FOOTBALL[hash]) {
   if (btn) filterLeague(hash, btn);
 }
 initCursor(); updateCartBadge(); initLiveSearch(); initAnimations();
+// Load live products from API
+fetchProducts({ sport: 'football', limit: 20 }).then(data => {
+  if (data && data.products && data.products.length > 0) {
+    document.getElementById('api-football-notice').style.display = 'block';
+    document.getElementById('api-products-football').innerHTML = data.products.map(p => renderAPIProductCard(p)).join('');
+    initAnimations();
+  }
+});
 </script>
 <script>
 let currentLeague = "all";
@@ -401,5 +419,13 @@ if(hash && FOOTBALL[hash]){
   if(btn) filterLeague(hash, btn);
 }
 initCursor(); updateCartBadge(); initLiveSearch(); initAnimations();
+// Load live products from API
+fetchProducts({ sport: 'football', limit: 20 }).then(data => {
+  if (data && data.products && data.products.length > 0) {
+    document.getElementById('api-football-notice').style.display = 'block';
+    document.getElementById('api-products-football').innerHTML = data.products.map(p => renderAPIProductCard(p)).join('');
+    initAnimations();
+  }
+});
 </script>
 </body></html>

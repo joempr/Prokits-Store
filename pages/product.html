@@ -591,6 +591,7 @@
   <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">CRYPTO</span></div></div>
 </footer>
 
+<script src="../assets/js/api.js"></script>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/layout.js"></script>
 <script>
@@ -601,8 +602,86 @@ let selectedSize = null;
 let qty = 1;
 
 // ── LOAD PRODUCT FROM URL PARAMS ────────────────────────
-function loadProduct() {
+async function loadProduct() {
   const params = new URLSearchParams(location.search);
+
+  // If ?id= is present, load from API
+  const productId = params.get('id');
+  if (productId) {
+    const product = await fetchProduct(productId);
+    if (product) {
+      // Populate from API data
+      const sport = product.sport || 'football';
+      const emoji = sport === 'nfl' ? '🏈' : sport === 'nba' ? '🏀' : '⚽';
+      document.title = `${product.team} ${product.kit_type} Jersey — ProKits Store`;
+      document.getElementById('info-title').textContent = product.team.toUpperCase();
+      document.getElementById('info-subtitle').textContent = `${product.kit_type} Jersey · ${product.season || '2025/26'} · ${product.version || 'Fan'}`;
+      document.getElementById('info-sport-tag').textContent = `${product.league} · ${product.sport}`;
+      document.getElementById('info-price').textContent = `$${parseFloat(product.price).toFixed(0)}`;
+      document.getElementById('info-old-price').textContent = product.original_price ? `$${parseFloat(product.original_price).toFixed(0)}` : '';
+      if (product.original_price) {
+        const save = Math.round((1 - product.price / product.original_price) * 100);
+        document.getElementById('info-save').textContent = `Save ${save}%`;
+      } else {
+        document.getElementById('info-save').style.display = 'none';
+      }
+      document.getElementById('main-emoji').textContent = emoji;
+      document.getElementById('desc-text').textContent = product.description || `Premium Thailand AAA quality replica ${product.team} jersey. Correct badge embroidery, accurate fonts, correct fabric weight.`;
+
+      // Load real photos if available
+      if (product.photos && product.photos.length > 0) {
+        const mainImg = document.getElementById('main-emoji');
+        mainImg.style.display = 'none';
+        const imgEl = document.createElement('img');
+        imgEl.src = product.photos[0].url;
+        imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0';
+        mainImg.parentElement.style.position = 'relative';
+        mainImg.parentElement.appendChild(imgEl);
+
+        // Thumbnails
+        const thumbContainer = document.getElementById('thumbnails');
+        thumbContainer.innerHTML = product.photos.map((ph, i) =>
+          `<div class="thumb${i===0?' active':''}" onclick="switchThumbAPI('${ph.url}', this)">
+            <img src="${ph.url}" style="width:100%;height:100%;object-fit:cover">
+            <span class="thumb-label">${ph.view_type}</span>
+          </div>`
+        ).join('');
+      }
+
+      // Size buttons from product data
+      if (product.sizes && product.sizes.length > 0) {
+        document.getElementById('size-btns').innerHTML = product.sizes.map(s =>
+          `<button class="variant-btn" onclick="selectSize('${s}',this)">${s}</button>`
+        ).join('');
+      }
+
+      // Kit type from product
+      selectedKit = product.kit_type || 'Home';
+      selectedSize = null;
+      currentProduct = { sport, league: product.league, team: product.team, emoji, price: parseFloat(product.price), season: product.season, kit: product.kit_type, productId: product.id };
+
+      // Related products
+      const related = await fetchProducts({ sport, league: product.league, limit: 4 });
+      if (related && related.products) {
+        const others = related.products.filter(p => p.id !== product.id).slice(0, 4);
+        if (others.length > 0) {
+          document.getElementById('related-grid').innerHTML = others.map(p => {
+            const pEmoji = p.sport === 'nfl' ? '🏈' : p.sport === 'nba' ? '🏀' : '⚽';
+            const photo = p.photos && p.photos.length > 0 ? p.photos[0].url : null;
+            return `<a href="product.html?id=${p.id}" class="related-card">
+              ${photo ? `<img src="${photo}" style="width:100%;height:100px;object-fit:cover;margin-bottom:10px">` : `<span class="rc-emoji">${pEmoji}</span>`}
+              <div class="rc-league">${p.league}</div>
+              <div class="rc-name">${p.team}</div>
+              <div class="rc-price">$${parseFloat(p.price).toFixed(0)}</div>
+            </a>`;
+          }).join('');
+        }
+      }
+      return; // Done — don't fall through to static data
+    }
+  }
+
+  // Fallback to URL params (static data)
   const sport = params.get('sport') || 'football';
   const league = params.get('league') || 'spain';
   const team = params.get('team') || 'Real Madrid';
@@ -673,6 +752,15 @@ function loadProduct() {
 
   // Related products
   renderRelated(sport, league, team, emoji, price);
+}
+
+
+function switchThumbAPI(url, thumb) {
+  // Update main image
+  const mainImg = document.querySelector('.main-image img');
+  if (mainImg) mainImg.src = url;
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
 }
 
 // ── INTERACTIONS ────────────────────────────────────────
@@ -805,7 +893,7 @@ loadProduct = function() {
 };
 
 // ── INIT ────────────────────────────────────────────────
-loadProduct();
+loadProduct().then(() => {});
 initCursor();
 updateCartBadge();
 initAnimations();

@@ -89,6 +89,7 @@
 </a>
 <div class="whatsapp-tooltip">Chat on WhatsApp</div>
 
+<script src="../assets/js/api.js"></script>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/layout.js"></script>
 <script>
@@ -141,7 +142,15 @@ function renderArrivals() {
   }).join('');
   initAnimations();
 }
-renderArrivals();
+// Try API first for new arrivals
+fetchProducts({ is_new: true, limit: 20 }).then(data => {
+  if (data && data.products && data.products.length > 0) {
+    document.getElementById('arrivals-grid').innerHTML = data.products.map(p => renderAPIProductCard(p)).join('');
+    initAnimations();
+  } else {
+    renderArrivals(); // fallback to static
+  }
+});
 initCursor(); updateCartBadge(); initLiveSearch();
 </script>
 </body></html>

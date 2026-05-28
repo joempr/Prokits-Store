@@ -259,6 +259,11 @@
   </div>
 </section>
 
+<!-- LIVE PRODUCTS FROM DATABASE -->
+<section class="section section-dark" id="live-products-section" style="padding-top:60px;padding-bottom:60px">
+  <div id="featured-products-container"></div>
+</section>
+
 <div class="trust-bar">
   <div class="trust-item anim"><div class="trust-icon">🌍</div><div><div class="trust-title">Ships Worldwide</div><div class="trust-sub">100+ countries</div></div></div>
   <div class="trust-item anim"><div class="trust-icon">⚡</div><div><div class="trust-title">Fast Delivery</div><div class="trust-sub">7–15 business days</div></div></div>
@@ -281,7 +286,9 @@
   <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store. All rights reserved.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">AMEX</span><span class="pay-badge">CRYPTO</span></div></div>
 </footer>
 
+<script src="assets/js/api.js"></script>
 <script src="assets/js/layout.js"></script>
-<script>initCursor(); updateCartBadge(); initAnimations();</script>
+<script>initCursor(); updateCartBadge(); initAnimations();
+loadFeaturedProducts("featured-products-container", "pages/");</script>
 </body>
 </html>

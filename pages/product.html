@@ -616,8 +616,17 @@ async function loadProduct() {
       const emoji = sport === 'nfl' ? '🏈' : sport === 'nba' ? '🏀' : '⚽';
       document.title = `${product.team} ${product.kit_type} Jersey — ProKits Store`;
       document.getElementById('info-title').textContent = product.team.toUpperCase();
-      document.getElementById('info-subtitle').textContent = `${product.kit_type} Jersey · ${product.season || '2025/26'} · ${product.version || 'Fan'}`;
-      document.getElementById('info-sport-tag').textContent = `${product.league} · ${product.sport}`;
+      document.getElementById('info-subtitle').textContent = `${product.kit_type} Jersey · ${product.season || '2025/26'} · Thailand AAA Quality`;
+      document.getElementById('info-sport-tag').textContent = `${product.league} · ${product.sport.charAt(0).toUpperCase() + product.sport.slice(1)}`;
+      // Update breadcrumb
+      const bcTeam = document.getElementById('bc-team');
+      const bcLeague = document.getElementById('bc-league');
+      const bcSport = document.getElementById('bc-sport');
+      if (bcTeam) bcTeam.textContent = product.team;
+      if (bcLeague) bcLeague.textContent = product.league;
+      if (bcSport) { bcSport.textContent = product.sport.toUpperCase(); bcSport.href = `${product.sport}.html`; }
+      // Update page title
+      document.title = `${product.team} ${product.kit_type} Jersey ${product.season || '2025/26'} — ProKits Store`;
       document.getElementById('info-price').textContent = `$${parseFloat(product.price).toFixed(0)}`;
       document.getElementById('info-old-price').textContent = product.original_price ? `$${parseFloat(product.original_price).toFixed(0)}` : '';
       if (product.original_price) {
@@ -656,8 +665,12 @@ async function loadProduct() {
         ).join('');
       }
 
-      // Kit type from product
+      // Pre-select correct kit type button
       selectedKit = product.kit_type || 'Home';
+      document.querySelectorAll('#kit-btns .variant-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim() === selectedKit);
+      });
+      document.getElementById('selected-kit').textContent = selectedKit;
       selectedSize = null;
       currentProduct = { sport, league: product.league, team: product.team, emoji, price: parseFloat(product.price), season: product.season, kit: product.kit_type, productId: product.id };
 

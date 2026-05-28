@@ -57,9 +57,20 @@
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/layout.js"></script>
 <script>
+let currentLeague = "all";
 function teamCard(t){
   const price = parseInt(t.p.replace(/\$|–.*/g,''));
-  return `<div class="team-card anim"><span class="tc-emoji">${t.e}</span><div class="tc-name">${t.n}</div><div class="tc-jersey">${t.j}</div><div class="tc-price">${t.p}</div><button class="tc-btn" onclick="addToCart('${t.n.replace(/'/g,"\\'")}','${t.j}',${price},'${t.e}')">Add to Cart +</button></div>`;
+  const url = 'product.html?sport=football&league=' + currentLeague + '&team=' + encodeURIComponent(t.n) + '&emoji=' + encodeURIComponent(t.e) + '&price=' + price;
+  return '<div class="team-card anim">' +
+    '<span class="tc-emoji">' + t.e + '</span>' +
+    '<div class="tc-name">' + t.n + '</div>' +
+    '<div class="tc-jersey">' + t.j + '</div>' +
+    '<div class="tc-price">' + t.p + '</div>' +
+    '<div style="display:flex;gap:6px;margin-top:10px">' +
+      '<a href="' + url + '" class="tc-btn" style="opacity:1;transform:none;display:block;text-decoration:none;text-align:center;flex:1">View Details</a>' +
+      '<button style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.2);color:var(--gold);padding:6px 12px;font-size:16px;cursor:pointer" onclick="addToCart(\'' + t.n.replace(/'/g,"\\'") + '\',\'' + t.j + '\',' + price + ',\'' + t.e + '\')">+</button>' +
+    '</div>' +
+  '</div>';
 }
 function renderSec(key, data, show){
   return `<div class="league-sec${show?'':' hidden'}" id="sec-${key}"><div class="league-hdr"><span class="league-flag">${data.flag}</span><div><div class="league-name-text">${data.name}</div><div class="league-country-text">${data.country}</div></div><span class="league-num">${data.teams.length} Clubs</span></div><div class="teams-grid">${data.teams.map(teamCard).join('')}</div></div>`;
@@ -80,21 +91,17 @@ function doSearch(){
     : `<div class="no-results">No results for "${q}"</div>`;
   initAnimations();
 }
-// Init - wait for DOM
-window.addEventListener('DOMContentLoaded', function() {
-  let html = '';
-  Object.entries(FOOTBALL).forEach(([k,v]) => html += renderSec(k,v,true));
-  document.getElementById('catalog-body').innerHTML = html;
-  // Handle hash filter
-  const hash = location.hash.replace('#','');
-  if(hash && FOOTBALL[hash]){
-    const btn = [...document.querySelectorAll('.ftab')].find(b => {
-      const oc = b.getAttribute('onclick') || '';
-      return oc.includes("'" + hash + "'");
-    });
-    if(btn) filterLeague(hash, btn);
-  }
-  initCursor(); updateCartBadge(); initAnimations();
-});
+// Init
+let html = '';
+Object.entries(FOOTBALL).forEach(([k,v]) => html += renderSec(k,v,true));
+document.getElementById('catalog-body').innerHTML = html;
+const hash = location.hash.replace('#','');
+if(hash && FOOTBALL[hash]){
+  const btn = [...document.querySelectorAll('.ftab')].find(b => {
+    return (b.getAttribute('onclick')||'').includes("'" + hash + "'");
+  });
+  if(btn) filterLeague(hash, btn);
+}
+initCursor(); updateCartBadge(); initAnimations();
 </script>
 </body></html>

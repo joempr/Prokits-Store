@@ -56,17 +56,17 @@ document.getElementById('tabs').innerHTML = TABS.map(([f,l]) =>
 
 function teamCard(t) {
   const price = parseInt(t.p.replace(/\$|–.*/g,''));
-  const url = `product.html?sport=nfl&league=` + currentConf + `&team=${encodeURIComponent(t.n)}&emoji=${t.e}&price=${price}`;
-  return `<div class="team-card anim">
-    <span class="tc-emoji">${t.e}</span>
-    <div class="tc-name">${t.n}</div>
-    <div class="tc-jersey">${t.j}</div>
-    <div class="tc-price">${t.p}</div>
-    <div style="display:flex;gap:6px;margin-top:10px">
-      <a href="${url}" class="tc-btn" style="opacity:1;transform:none;display:block;text-decoration:none;text-align:center">View Details</a>
-      <button style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.2);color:var(--gold);padding:6px 10px;font-size:14px;cursor:none;transition:all .3s" onclick="addToCart('${t.n.replace(/\'/g,\"\'\")}',' ${t.j}',${price},'${t.e}')">+</button>
-    </div>
-  </div>`;
+  const url = 'product.html?sport=nfl&league=' + currentConf + '&team=' + encodeURIComponent(t.n) + '&emoji=' + encodeURIComponent(t.e) + '&price=' + price;
+  return '<div class="team-card anim">' +
+    '<span class="tc-emoji">' + t.e + '</span>' +
+    '<div class="tc-name">' + t.n + '</div>' +
+    '<div class="tc-jersey">' + t.j + '</div>' +
+    '<div class="tc-price">' + t.p + '</div>' +
+    '<div style="display:flex;gap:6px;margin-top:10px">' +
+      '<a href="' + url + '" class="tc-btn" style="opacity:1;transform:none;display:block;text-decoration:none;text-align:center;flex:1">View Details</a>' +
+      '<button style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.2);color:var(--gold);padding:6px 12px;font-size:16px;cursor:pointer" onclick="addToCart(\'' + t.n + '\',\'' + t.j + '\',' + price + ',\'' + t.e + '\')">+</button>' +
+    '</div>' +
+  '</div>';
 }
 let currentConf = 'afc';
 
@@ -97,9 +97,7 @@ function doSearch() {
   initAnimations();
 }
 
-window.addEventListener('DOMContentLoaded', function() {
-  renderData('all');
-  initCursor(); updateCartBadge();
-});
+renderData('all');
+initCursor(); updateCartBadge();
 </script>
 </body></html>

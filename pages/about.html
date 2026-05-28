@@ -127,6 +127,8 @@
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
+
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar" id="annBar">
   <div class="ann-items">
@@ -143,18 +145,68 @@
   </div>
   <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
 </div>
-<!-- CURRENCY BAR -->
-<div id="currencyBar" style="background:var(--black-4);border-bottom:1px solid rgba(255,255,255,.06);padding:6px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
-  <span style="color:var(--white-dim)">Currency:</span>
-  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" id="currencyTopBar" style="background:var(--black-3);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
-    <option value="USD">🇺🇸 USD $</option>
-    <option value="EUR">🇪🇺 EUR €</option>
-    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
-    <option value="AED">🇦🇪 AED</option>
-    <option value="SAR">🇸🇦 SAR</option>
-    <option value="TRY">🇹🇷 TRY ₺</option>
-    <option value="CAD">🇨🇦 CAD</option>
-    <option value="AUD">🇦🇺 AUD</option>
-  </select>
+<nav>
+  <div class="nav-top">
+    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
+    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..."></div>
+    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
+  </div>
+  <div class="nav-bottom">
+    <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="new-arrivals.html">🆕 New</a>
+    <a class="nav-link" href="sale.html">🔥 Sale</a>
+    <a class="nav-link" href="football.html">⚽ Football</a>
+    <a class="nav-link" href="nfl.html">🏈 NFL</a>
+    <a class="nav-link" href="nba.html">🏀 NBA</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="nav-link" href="faq.html">FAQ</a>
+    <a class="nav-link" href="shipping.html">Shipping</a>
+    <a class="nav-link" href="returns.html">Returns</a>
+    <a class="nav-link" href="size-guide.html">Size Guide</a>
+    <a class="nav-link" href="track.html">Track Order</a>
+  </div>
+</nav>
+<div style="padding-top:150px">
+  <div class="content-hero"><div class="sec-tag">Our Story</div><h1>ABOUT <span>PROKITS</span></h1><p>We're sports fans, just like you. We built ProKits to make premium quality jerseys accessible to fans worldwide — without the insane retail markup.</p></div>
+  <div class="content-body">
+<div class="about-story">
+  <div>
+    <div class="gold-line"></div>
+    <div class="sec-tag">Who We Are</div>
+    <div class="sec-title" style="margin-bottom:20px;font-size:36px">PASSION FOR THE <span>GAME</span></div>
+    <div class="prose">
+      <p>ProKits was founded by sports fans who were tired of paying $150+ for official jerseys. We believe every fan deserves to wear their team's colors — not just those who can afford premium retail prices.</p>
+      <p>We source directly from top-tier factories producing Thailand AAA quality replica jerseys. By cutting out the middleman, we pass the savings directly to you.</p>
+      <p>From the Premier League to the NBA Finals, we cover every major sport with a catalog of 800+ jerseys. We update with new season kits as soon as they drop.</p>
+    </div>
+  </div>
+  <div class="about-img-placeholder">🏆</div>
 </div>
-<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
+<div style="margin-top:60px">
+  <div class="sec-tag">Our Values</div>
+  <div class="sec-title" style="margin-bottom:32px;font-size:40px">WHY CHOOSE <span>PROKITS</span></div>
+  <div class="content-grid-3">
+    <div class="info-card anim"><div class="ic-icon">🏅</div><h3>Quality First</h3><p>Only Thailand AAA grade jerseys. Every stitch and badge inspected. We reject anything that doesn't meet our standard.</p></div>
+    <div class="info-card anim"><div class="ic-icon">💰</div><h3>Fair Prices</h3><p>Official jerseys cost $120–$180. Ours start at $38. The game belongs to all fans — not just the wealthy ones.</p></div>
+    <div class="info-card anim"><div class="ic-icon">🌍</div><h3>Global Shipping</h3><p>We ship to 100+ countries. Whether you're in Europe, North America, the Middle East, or beyond — we've got you covered.</p></div>
+    <div class="info-card anim"><div class="ic-icon">📦</div><h3>Fast Delivery</h3><p>Premium shipping lines ensure your jersey arrives in 7–15 business days with full tracking door to door.</p></div>
+    <div class="info-card anim"><div class="ic-icon">🤝</div><h3>Customer First</h3><p>We respond within 24 hours. If you're not happy with your order, neither are we — and we'll make it right.</p></div>
+    <div class="info-card anim"><div class="ic-icon">🔄</div><h3>Easy Returns</h3><p>Straightforward returns process. Your satisfaction is our priority, no complicated procedures.</p></div>
+  </div>
+</div></div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide. Thailand AAA grade guaranteed.</p><div class="socials"><a class="social" href="#" target="_blank">TK</a><a class="social" href="https://instagram.com/thejerseystorekktc" target="_blank">IG</a><a class="social" href="#" target="_blank">FB</a></div></div>
+    <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="football.html">Football Jerseys</a></li><li><a href="nfl.html">NFL Jerseys</a></li><li><a href="nba.html">NBA Jerseys</a></li></ul></div>
+    <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="shipping.html">Shipping Info</a></li><li><a href="returns.html">Returns Policy</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="track.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="faq.html">FAQ</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store. All rights reserved.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">AMEX</span><span class="pay-badge">CRYPTO</span></div></div>
+</footer>
+<script src="../assets/js/layout.js"></script>
+<script>initCursor(); updateCartBadge(); initAnimations();</script>
+
+</body></html>

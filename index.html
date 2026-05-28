@@ -129,6 +129,11 @@
 </style>
 </head>
 <body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
+<div id="toast"></div>
+
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar" id="annBar">
   <div class="ann-items">
@@ -145,27 +150,61 @@
   </div>
   <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
 </div>
-<!-- CURRENCY BAR -->
-<div id="currencyBar" style="background:var(--black-4);border-bottom:1px solid rgba(255,255,255,.06);padding:6px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
-  <span style="color:var(--white-dim)">Currency:</span>
-  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" id="currencyTopBar" style="background:var(--black-3);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
-    <option value="USD">🇺🇸 USD $</option>
-    <option value="EUR">🇪🇺 EUR €</option>
-    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
-    <option value="AED">🇦🇪 AED</option>
-    <option value="SAR">🇸🇦 SAR</option>
-    <option value="TRY">🇹🇷 TRY ₺</option>
-    <option value="CAD">🇨🇦 CAD</option>
-    <option value="AUD">🇦🇺 AUD</option>
-  </select>
-</div>
+<nav>
+  <div class="nav-top">
+    <a class="nav-logo" href="index.html">Pro<span>Kits</span></a>
+    <div class="nav-search">
+      <input type="text" placeholder="🔍 Search jerseys, teams..." id="searchInput">
+      <a href="pages/football.html" class="btn btn-gold" style="padding:9px 18px;font-size:11px;text-decoration:none">Search</a>
+    </div>
+    <div class="nav-actions">
+      <a href="pages/cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a>
+    </div>
+  </div>
+  <div class="nav-bottom">
+    <a class="nav-link active" href="index.html">Home</a>
+    <div class="nav-dropdown">
+      <a class="nav-link" href="pages/football.html">⚽ Football ▾</a>
+      <div class="dropdown-menu">
+        <a href="pages/football.html">All Clubs</a>
+        <a href="pages/football.html#england">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</a>
+        <a href="pages/football.html#spain">🇪🇸 La Liga</a>
+        <a href="pages/football.html#france">🇫🇷 Ligue 1</a>
+        <a href="pages/football.html#germany">🇩🇪 Bundesliga</a>
+        <a href="pages/football.html#italy">🇮🇹 Serie A</a>
+        <a href="pages/football.html#portugal">🇵🇹 Liga NOS</a>
+        <a href="pages/football.html#netherlands">🇳🇱 Eredivisie</a>
+        <a href="pages/football.html#international">🌍 National Teams</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <a class="nav-link" href="pages/nfl.html">🏈 NFL ▾</a>
+      <div class="dropdown-menu">
+        <a href="pages/nfl.html">All 32 Teams</a>
+        <a href="pages/nfl.html#popular">🔥 Most Popular</a>
+        <a href="pages/nfl.html#afc">AFC Teams</a>
+        <a href="pages/nfl.html#nfc">NFC Teams</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <a class="nav-link" href="pages/nba.html">🏀 NBA ▾</a>
+      <div class="dropdown-menu">
+        <a href="pages/nba.html">All 30 Teams</a>
+        <a href="pages/nba.html#popular">🔥 Most Popular</a>
+        <a href="pages/nba.html#east">Eastern Conference</a>
+        <a href="pages/nba.html#west">Western Conference</a>
+      </div>
+    </div>
+    <a class="nav-link" href="pages/about.html">About</a>
+    <a class="nav-link" href="pages/contact.html">Contact</a>
+    <a class="nav-link" href="pages/faq.html">FAQ</a>
+    <a class="nav-link" href="pages/shipping.html">Shipping</a>
+    <a class="nav-link" href="pages/returns.html">Returns</a>
+    <a class="nav-link" href="pages/size-guide.html">Size Guide</a>
+    <a class="nav-link" href="pages/track.html">Track Order</a>
+  </div>
+</nav>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="ring"></div>
-<div id="toast"></div>
-
-<button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
-</div>
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
@@ -193,6 +232,20 @@
   </div>
 </section>
 
+<!-- CURRENCY BAR -->
+<div style="background:var(--black-3);border-bottom:1px solid rgba(201,168,76,.08);padding:7px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
+  <span style="color:var(--white-dim)">Currency:</span>
+  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" style="background:transparent;border:1px solid rgba(201,168,76,.2);color:var(--gold);padding:3px 8px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
+    <option value="USD">🇺🇸 USD $</option>
+    <option value="EUR">🇪🇺 EUR €</option>
+    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
+    <option value="AED">🇦🇪 AED</option>
+    <option value="SAR">🇸🇦 SAR</option>
+    <option value="TRY">🇹🇷 TRY ₺</option>
+    <option value="CAD">🇨🇦 CAD</option>
+    <option value="AUD">🇦🇺 AUD</option>
+  </select>
+</div>
 <div class="marquee-bar"><div class="marquee-inner">
   <span class="marquee-item">⚽ Football Jerseys ◆</span><span class="marquee-item">🏈 NFL Jerseys ◆</span><span class="marquee-item">🏀 NBA Jerseys ◆</span><span class="marquee-item">🌍 Ships Worldwide ◆</span><span class="marquee-item">⭐ Thailand AAA Quality ◆</span><span class="marquee-item">📦 7–15 Day Delivery ◆</span><span class="marquee-item">⚽ Football Jerseys ◆</span><span class="marquee-item">🏈 NFL Jerseys ◆</span><span class="marquee-item">🏀 NBA Jerseys ◆</span><span class="marquee-item">🌍 Ships Worldwide ◆</span><span class="marquee-item">⭐ Thailand AAA Quality ◆</span><span class="marquee-item">📦 7–15 Day Delivery ◆</span>
 </div></div>
@@ -230,12 +283,5 @@
 
 <script src="assets/js/layout.js"></script>
 <script>initCursor(); updateCartBadge(); initAnimations();</script>
-<script>
-(function(){
-  var saved = localStorage.getItem('prokits_currency') || 'USD';
-  var sel = document.getElementById('currencyTopBar');
-  if (sel) sel.value = saved;
-})();
-</script>
 </body>
 </html>

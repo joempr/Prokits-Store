@@ -251,6 +251,10 @@
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
+<div id="toast"></div>
+
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar" id="annBar">
   <div class="ann-items">
@@ -267,26 +271,45 @@
   </div>
   <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
 </div>
+<nav>
+  <div class="nav-top">
+    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
+    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..."></div>
+    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
+  </div>
+  <div class="nav-bottom">
+    <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="new-arrivals.html">🆕 New</a>
+    <a class="nav-link" href="sale.html">🔥 Sale</a>
+    <a class="nav-link" href="football.html">⚽ Football</a>
+    <a class="nav-link" href="nfl.html">🏈 NFL</a>
+    <a class="nav-link" href="nba.html">🏀 NBA</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="nav-link" href="faq.html">FAQ</a>
+    <a class="nav-link" href="shipping.html">Shipping</a>
+    <a class="nav-link" href="returns.html">Returns</a>
+    <a class="nav-link" href="size-guide.html">Size Guide</a>
+    <a class="nav-link" href="track.html">Track Order</a>
+  </div>
+</nav>
+
+
 <!-- CURRENCY BAR -->
-<div id="currencyBar" style="background:var(--black-4);border-bottom:1px solid rgba(255,255,255,.06);padding:6px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
-  <span style="color:var(--white-dim)">Currency:</span>
-  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" id="currencyTopBar" style="background:var(--black-3);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
+<div class="currency-bar">
+  <span class="currency-label">Currency:</span>
+  <select class="currency-select" id="currencySelect" onchange="setCurrency(this.value)">
     <option value="USD">🇺🇸 USD $</option>
     <option value="EUR">🇪🇺 EUR €</option>
     <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
-    <option value="AED">🇦🇪 AED</option>
-    <option value="SAR">🇸🇦 SAR</option>
+    <option value="AED">🇦🇪 AED د.إ</option>
+    <option value="SAR">🇸🇦 SAR ﷼</option>
     <option value="TRY">🇹🇷 TRY ₺</option>
-    <option value="CAD">🇨🇦 CAD</option>
-    <option value="AUD">🇦🇺 AUD</option>
+    <option value="CAD">🇨🇦 CAD C$</option>
+    <option value="AUD">🇦🇺 AUD A$</option>
   </select>
 </div>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="ring"></div>
-<div id="toast"></div>
 
-<button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
-</div>
 <!-- SIZE POPUP -->
 <div class="size-popup-overlay" id="sizePopup" onclick="closeSizePopup(event)">
   <div class="size-popup">
@@ -327,7 +350,7 @@
     </div>
   </div>
 </div>
-<div style="padding-top:155px">
+<div style="padding-top:150px">
   <div class="product-page">
 
     <!-- BREADCRUMB -->
@@ -786,13 +809,6 @@ loadProduct();
 initCursor();
 updateCartBadge();
 initAnimations();
-</script>
-<script>
-(function(){
-  var saved = localStorage.getItem('prokits_currency') || 'USD';
-  var sel = document.getElementById('currencyTopBar');
-  if (sel) sel.value = saved;
-})();
 </script>
 </body>
 </html>

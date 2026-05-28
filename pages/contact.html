@@ -127,6 +127,8 @@
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
+
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar" id="annBar">
   <div class="ann-items">
@@ -143,18 +145,64 @@
   </div>
   <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
 </div>
-<!-- CURRENCY BAR -->
-<div id="currencyBar" style="background:var(--black-4);border-bottom:1px solid rgba(255,255,255,.06);padding:6px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
-  <span style="color:var(--white-dim)">Currency:</span>
-  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" id="currencyTopBar" style="background:var(--black-3);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
-    <option value="USD">🇺🇸 USD $</option>
-    <option value="EUR">🇪🇺 EUR €</option>
-    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
-    <option value="AED">🇦🇪 AED</option>
-    <option value="SAR">🇸🇦 SAR</option>
-    <option value="TRY">🇹🇷 TRY ₺</option>
-    <option value="CAD">🇨🇦 CAD</option>
-    <option value="AUD">🇦🇺 AUD</option>
-  </select>
+<nav>
+  <div class="nav-top">
+    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
+    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..."></div>
+    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
+  </div>
+  <div class="nav-bottom">
+    <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="new-arrivals.html">🆕 New</a>
+    <a class="nav-link" href="sale.html">🔥 Sale</a>
+    <a class="nav-link" href="football.html">⚽ Football</a>
+    <a class="nav-link" href="nfl.html">🏈 NFL</a>
+    <a class="nav-link" href="nba.html">🏀 NBA</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="nav-link" href="faq.html">FAQ</a>
+    <a class="nav-link" href="shipping.html">Shipping</a>
+    <a class="nav-link" href="returns.html">Returns</a>
+    <a class="nav-link" href="size-guide.html">Size Guide</a>
+    <a class="nav-link" href="track.html">Track Order</a>
+  </div>
+</nav>
+<div style="padding-top:150px">
+  <div class="content-hero"><div class="sec-tag">Get In Touch</div><h1>CONTACT <span>US</span></h1><p>Have a question? We're here to help — usually within 24 hours.</p></div>
+  <div class="content-body">
+<div class="contact-grid">
+  <div class="contact-info">
+    <div class="ci-item"><div class="ci-icon">📧</div><div><div class="ci-label">Email</div><div class="ci-val">support@prokitsstore.com<br><span style="font-size:12px;opacity:.7">We reply within 24 hours</span></div></div></div>
+    <div class="ci-item"><div class="ci-icon">💬</div><div><div class="ci-label">WhatsApp</div><div class="ci-val">Available for order enquiries<br><span style="font-size:12px;opacity:.7">Mon–Sat, 9am–9pm</span></div></div></div>
+    <div class="ci-item"><div class="ci-icon">📱</div><div><div class="ci-label">Social Media</div><div class="ci-val">@prokitsstore on TikTok & Instagram<br><span style="font-size:12px;opacity:.7">DMs open for quick questions</span></div></div></div>
+    <div class="ci-item"><div class="ci-icon">📦</div><div><div class="ci-label">Order Issues</div><div class="ci-val">Include your order number and we'll resolve it fast.<br><span style="font-size:12px;opacity:.7">Missing items, wrong size, shipping delays</span></div></div></div>
+    <div class="highlight-box"><p>📌 <strong>Response Time:</strong> We aim to reply within 24 hours. For urgent order issues, WhatsApp is fastest.</p></div>
+  </div>
+  <div>
+    <div class="sec-tag">Send a Message</div>
+    <div class="sec-title" style="margin-bottom:24px;font-size:32px">WE'D LOVE TO <span>HEAR FROM YOU</span></div>
+    <div class="contact-form">
+      <div><label class="form-label">Your Name</label><input class="form-input" type="text" placeholder="Your name"></div>
+      <div><label class="form-label">Email Address</label><input class="form-input" type="email" placeholder="your@email.com"></div>
+      <div><label class="form-label">Subject</label><select class="form-input"><option>Order Enquiry</option><option>Shipping Question</option><option>Returns / Exchange</option><option>Product Question</option><option>Size Help</option><option>Other</option></select></div>
+      <div><label class="form-label">Order Number (if applicable)</label><input class="form-input" type="text" placeholder="PK-XXXXXX"></div>
+      <div><label class="form-label">Message</label><textarea class="form-input" rows="5" placeholder="How can we help?"></textarea></div>
+      <button class="form-submit" onclick="showToast('✅ Message sent! We will reply within 24 hours.')">Send Message →</button>
+    </div>
+  </div>
+</div></div>
 </div>
-<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide. Thailand AAA grade guaranteed.</p><div class="socials"><a class="social" href="#" target="_blank">TK</a><a class="social" href="https://instagram.com/thejerseystorekktc" target="_blank">IG</a><a class="social" href="#" target="_blank">FB</a></div></div>
+    <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="football.html">Football Jerseys</a></li><li><a href="nfl.html">NFL Jerseys</a></li><li><a href="nba.html">NBA Jerseys</a></li></ul></div>
+    <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="shipping.html">Shipping Info</a></li><li><a href="returns.html">Returns Policy</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="track.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="faq.html">FAQ</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store. All rights reserved.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">AMEX</span><span class="pay-badge">CRYPTO</span></div></div>
+</footer>
+<script src="../assets/js/layout.js"></script>
+<script>initCursor(); updateCartBadge(); initAnimations();</script>
+
+</body></html>

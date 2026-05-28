@@ -127,6 +127,8 @@
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
+
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar" id="annBar">
   <div class="ann-items">
@@ -143,18 +145,66 @@
   </div>
   <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
 </div>
-<!-- CURRENCY BAR -->
-<div id="currencyBar" style="background:var(--black-4);border-bottom:1px solid rgba(255,255,255,.06);padding:6px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
-  <span style="color:var(--white-dim)">Currency:</span>
-  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" id="currencyTopBar" style="background:var(--black-3);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
-    <option value="USD">🇺🇸 USD $</option>
-    <option value="EUR">🇪🇺 EUR €</option>
-    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
-    <option value="AED">🇦🇪 AED</option>
-    <option value="SAR">🇸🇦 SAR</option>
-    <option value="TRY">🇹🇷 TRY ₺</option>
-    <option value="CAD">🇨🇦 CAD</option>
-    <option value="AUD">🇦🇺 AUD</option>
-  </select>
+<nav>
+  <div class="nav-top">
+    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
+    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..."></div>
+    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
+  </div>
+  <div class="nav-bottom">
+    <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="new-arrivals.html">🆕 New</a>
+    <a class="nav-link" href="sale.html">🔥 Sale</a>
+    <a class="nav-link" href="football.html">⚽ Football</a>
+    <a class="nav-link" href="nfl.html">🏈 NFL</a>
+    <a class="nav-link" href="nba.html">🏀 NBA</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="nav-link" href="faq.html">FAQ</a>
+    <a class="nav-link" href="shipping.html">Shipping</a>
+    <a class="nav-link" href="returns.html">Returns</a>
+    <a class="nav-link" href="size-guide.html">Size Guide</a>
+    <a class="nav-link" href="track.html">Track Order</a>
+  </div>
+</nav>
+<div style="padding-top:150px">
+  <div class="content-hero"><div class="sec-tag">Delivery Information</div><h1>SHIPPING <span>INFO</span></h1><p>We ship worldwide using trusted international carriers. Here's everything you need to know.</p></div>
+  <div class="content-body">
+<div class="content-grid">
+  <div class="prose">
+    <h2>Delivery Times by Region</h2>
+    <div class="info-card" style="margin-bottom:14px"><h3>🇪🇺 Europe</h3><p>8–13 business days. UK, Germany, France, Spain, Italy, Netherlands and all EU countries. Full tracking provided.</p></div>
+    <div class="info-card" style="margin-bottom:14px"><h3>🇺🇸 USA & Canada</h3><p>10–15 business days. All US states and Canadian provinces. Full end-to-end tracking included.</p></div>
+    <div class="info-card" style="margin-bottom:14px"><h3>🌙 Middle East</h3><p>7–12 business days. UAE, Saudi Arabia, Kuwait, Qatar, Turkey, Cyprus, and surrounding countries.</p></div>
+    <div class="info-card" style="margin-bottom:14px"><h3>🌏 Asia Pacific</h3><p>8–14 business days. Australia, New Zealand, Singapore, Japan, South Korea, and more.</p></div>
+    <div class="info-card"><h3>🌍 Rest of World</h3><p>12–20 business days. Contact us for a specific estimate for your location.</p></div>
+    <h2>Shipping Carriers</h2>
+    <p>We use <strong>YunExpress</strong>, <strong>4PX</strong>, and <strong>CNE Express</strong> — all proven international logistics partners. Every order includes full tracking from dispatch to delivery.</p>
+    <h2>Customs & Import Duties</h2>
+    <p>All packages are declared at low value to minimise customs charges. The vast majority of orders arrive with no customs fees. However, we cannot guarantee duty-free delivery as it varies by country.</p>
+    <div class="highlight-box"><p>💡 <strong>Tip:</strong> Orders under $50 declared value are least likely to attract customs attention in most countries.</p></div>
+    <h2>Order Processing</h2>
+    <p>Orders are processed within <strong>1–3 business days</strong>. You will receive a tracking number by email once dispatched. Track your delivery at yuntrack.com or 17track.net.</p>
+  </div>
+  <div>
+    <div class="info-card" style="margin-bottom:18px"><div class="ic-icon">📦</div><h3>Free Shipping</h3><p>Orders over $100 qualify for free standard shipping to all destinations worldwide.</p></div>
+    <div class="info-card" style="margin-bottom:18px"><div class="ic-icon">🔍</div><h3>Full Tracking</h3><p>Every order includes a tracking number. Monitor your package from our warehouse to your door.</p></div>
+    <div class="info-card" style="margin-bottom:18px"><div class="ic-icon">🛡️</div><h3>Package Protection</h3><p>If your package is lost, damaged, or seized by customs, we will reship your order at no extra cost.</p></div>
+    <div class="info-card"><div class="ic-icon">⚡</div><h3>Express Options</h3><p>Express delivery (5–8 days) available for most destinations at additional cost. Contact us before ordering to arrange.</p></div>
+  </div>
+</div></div>
 </div>
-<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide. Thailand AAA grade guaranteed.</p><div class="socials"><a class="social" href="#" target="_blank">TK</a><a class="social" href="https://instagram.com/thejerseystorekktc" target="_blank">IG</a><a class="social" href="#" target="_blank">FB</a></div></div>
+    <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="football.html">Football Jerseys</a></li><li><a href="nfl.html">NFL Jerseys</a></li><li><a href="nba.html">NBA Jerseys</a></li></ul></div>
+    <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="shipping.html">Shipping Info</a></li><li><a href="returns.html">Returns Policy</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="track.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="faq.html">FAQ</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store. All rights reserved.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">AMEX</span><span class="pay-badge">CRYPTO</span></div></div>
+</footer>
+<script src="../assets/js/layout.js"></script>
+<script>initCursor(); updateCartBadge(); initAnimations();</script>
+
+</body></html>

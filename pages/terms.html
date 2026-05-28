@@ -127,6 +127,7 @@
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar" id="annBar">
   <div class="ann-items">
@@ -143,18 +144,107 @@
   </div>
   <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
 </div>
-<!-- CURRENCY BAR -->
-<div id="currencyBar" style="background:var(--black-4);border-bottom:1px solid rgba(255,255,255,.06);padding:6px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase">
-  <span style="color:var(--white-dim)">Currency:</span>
-  <select onchange="localStorage.setItem('prokits_currency',this.value);location.reload()" id="currencyTopBar" style="background:var(--black-3);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;outline:none;cursor:pointer">
-    <option value="USD">🇺🇸 USD $</option>
-    <option value="EUR">🇪🇺 EUR €</option>
-    <option value="GBP">🏴󠁧󠁢󠁥󠁮󠁧󠁿 GBP £</option>
-    <option value="AED">🇦🇪 AED</option>
-    <option value="SAR">🇸🇦 SAR</option>
-    <option value="TRY">🇹🇷 TRY ₺</option>
-    <option value="CAD">🇨🇦 CAD</option>
-    <option value="AUD">🇦🇺 AUD</option>
-  </select>
+<nav>
+  <div class="nav-top">
+    <a class="nav-logo" href="../index.html">Pro<span>Kits</span></a>
+    <div class="nav-search"><input type="text" placeholder="🔍 Search jerseys..."></div>
+    <div class="nav-actions"><a href="cart.html" class="nav-cart" id="cartCount">🛒 Cart (0)</a></div>
+  </div>
+  <div class="nav-bottom">
+    <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="new-arrivals.html">🆕 New</a>
+    <a class="nav-link" href="sale.html">🔥 Sale</a>
+    <a class="nav-link" href="football.html">⚽ Football</a>
+    <a class="nav-link" href="nfl.html">🏈 NFL</a>
+    <a class="nav-link" href="nba.html">🏀 NBA</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="nav-link" href="faq.html">FAQ</a>
+    <a class="nav-link" href="shipping.html">Shipping</a>
+    <a class="nav-link" href="returns.html">Returns</a>
+    <a class="nav-link" href="size-guide.html">Size Guide</a>
+    <a class="nav-link" href="track.html">Track Order</a>
+  </div>
+</nav>
+<div style="padding-top:150px">
+  <div class="content-hero"><div class="sec-tag">Legal</div><h1>TERMS OF <span>SERVICE</span></h1><p>Last updated: June 2025. By using our website and placing an order, you agree to these terms. Please read them carefully.</p></div>
+  <div class="content-body">
+    <div class="prose">
+      <h2>1. About Our Products</h2>
+      <p>ProKits Store sells high-quality replica sports jerseys. Our products are <strong>not official licensed merchandise</strong> from sports clubs, leagues, or brands such as Nike, Adidas, or Puma. They are premium quality replica items produced independently.</p>
+      <p>By purchasing from ProKits Store, you acknowledge and accept that:</p>
+      <ul>
+        <li>Products are replica/fan jerseys, not official licensed merchandise</li>
+        <li>Products are for personal use and fan purposes only</li>
+        <li>You are responsible for understanding the import regulations of your country</li>
+      </ul>
+
+      <h2>2. Orders & Payment</h2>
+      <p>All orders are subject to availability. We reserve the right to cancel any order if a product becomes unavailable after purchase, in which case a full refund will be issued.</p>
+      <ul>
+        <li>Prices are displayed in USD and may vary with currency conversion</li>
+        <li>Payment is due in full at the time of ordering</li>
+        <li>We accept Visa, Mastercard, Amex, and cryptocurrency</li>
+        <li>All transactions are processed securely via encrypted payment gateways</li>
+      </ul>
+
+      <h2>3. Shipping & Delivery</h2>
+      <p>Estimated delivery times are provided in good faith but are not guaranteed. Delays may occur due to:</p>
+      <ul>
+        <li>Customs processing in your country</li>
+        <li>Public holidays or peak periods</li>
+        <li>Carrier delays outside our control</li>
+        <li>Incorrect delivery address provided by the customer</li>
+      </ul>
+      <p>ProKits Store is not responsible for delays caused by customs authorities. However, if a package is seized or lost, we will reship at no extra cost.</p>
+
+      <h2>4. Customs & Import Duties</h2>
+      <p>Customers are responsible for any customs duties, taxes, or import fees charged by their country. We declare packages at low value to minimise the likelihood of customs charges, but we cannot guarantee duty-free delivery.</p>
+
+      <h2>5. Returns & Refunds</h2>
+      <p>Please refer to our <a href="returns.html" style="color:var(--gold)">Returns Policy</a> for full details. In summary:</p>
+      <ul>
+        <li>Returns accepted within 14 days for damaged, wrong, or significantly misrepresented items</li>
+        <li>Size exchanges accepted within 14 days</li>
+        <li>No returns for change of mind</li>
+        <li>Refunds processed within 3–5 business days</li>
+      </ul>
+
+      <h2>6. Customer Responsibilities</h2>
+      <p>By placing an order you confirm that:</p>
+      <ul>
+        <li>You are 18 years of age or older</li>
+        <li>The delivery address provided is accurate and complete</li>
+        <li>You understand the nature of replica products</li>
+        <li>You will not resell our products in jurisdictions where doing so is prohibited</li>
+      </ul>
+
+      <h2>7. Intellectual Property</h2>
+      <p>All content on this website including text, images, logos, and design is the property of ProKits Store. You may not reproduce, distribute, or use our content without prior written permission.</p>
+
+      <h2>8. Limitation of Liability</h2>
+      <p>ProKits Store shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or website. Our maximum liability in any case shall not exceed the value of the order in question.</p>
+
+      <h2>9. Governing Law</h2>
+      <p>These terms are governed by applicable law. Any disputes shall be resolved through good-faith negotiation before any legal proceedings are initiated.</p>
+
+      <h2>10. Changes to Terms</h2>
+      <p>We reserve the right to modify these terms at any time. Continued use of our website after changes constitutes acceptance of the updated terms.</p>
+
+      <h2>11. Contact</h2>
+      <div class="highlight-box"><p>📧 <strong>Email:</strong> support@prokitsstore.com<br>📱 <strong>Instagram:</strong> @thejerseystorekktc<br>⏰ We aim to respond to all enquiries within 24 hours.</p></div>
+    </div>
+  </div>
 </div>
-<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div><div id="toast"></div>
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Pro<span>Kits</span> Store</div><p class="footer-desc">Premium quality sports jerseys. Shipped worldwide.</p><div class="socials"><a class="social" href="https://instagram.com/thejerseystorekktc" target="_blank">IG</a><a class="social" href="#" target="_blank">TK</a><a class="social" href="#" target="_blank">FB</a></div></div>
+    <div><div class="footer-col-title">Shop</div><ul class="footer-links"><li><a href="football.html">Football</a></li><li><a href="nfl.html">NFL</a></li><li><a href="nba.html">NBA</a></li></ul></div>
+    <div><div class="footer-col-title">Support</div><ul class="footer-links"><li><a href="shipping.html">Shipping</a></li><li><a href="returns.html">Returns</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="track.html">Track Order</a></li></ul></div>
+    <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2025 ProKits Store. All rights reserved.</div><div class="pay-badges"><span class="pay-badge">VISA</span><span class="pay-badge">MC</span><span class="pay-badge">CRYPTO</span></div></div>
+</footer>
+<script src="../assets/js/layout.js"></script>
+<script>initCursor(); updateCartBadge();</script>
+</body></html>
